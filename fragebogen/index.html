@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<title>Fragebogen</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0e5a66">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="mockups/mockups.css">
+</head>
+<body>
+<!-- Alle Texte kommen aus config.js, fragen.js und mockups/mockups.js. Hier steht nur das Gerüst. -->
+<div class="app" id="app">
+  <header class="titelzeile glas" id="kopf"></header>
+  <main class="inhalt" id="inhalt"></main>
+  <footer class="fuss glas" id="fuss" hidden></footer>
+</div>
+
+<dialog id="dlg-uebersicht" class="dialog"></dialog>
+<dialog id="dlg-vorschau" class="dialog voll"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script src="fragen.js"></script>
+<script src="mockups/mockups.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

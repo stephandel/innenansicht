@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <!-- Zwei Ringe, die sich überschneiden: zwei Sichten auf dasselbe. Navy, helles Grau. -->
+  <rect width="180" height="180" fill="#1F3A5F"/>
+  <circle cx="74" cy="90" r="40" fill="none" stroke="#F3F5F8" stroke-width="7"/>
+  <circle cx="106" cy="90" r="40" fill="none" stroke="#F3F5F8" stroke-width="7" opacity=".55"/>
+</svg>

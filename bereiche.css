@@ -1,0 +1,79 @@
+/* Teil C: Stile der Bereiche Klarheit, Inneres Team, Verlauf. Tokens kommen aus styles.css. */
+
+/* Titelzeile der Unteransichten: Zurück links, Titel mittig */
+.titelzeile .c-zurueck { flex: 0 0 96px; padding-left: 0; gap: 2px; }
+.titelzeile .c-kopf-platz { flex: 0 0 96px; }
+.abschnitt > h2.t-caption { display: block; padding: 0 var(--s1) var(--s2); }
+.c-leer { margin: 0; }
+.c-datum { display: block; font-size: var(--fs-footnote); color: var(--text-2); margin-top: 2px; }
+.c-marke { font-size: var(--fs-footnote); font-weight: 600; color: var(--text-2); }
+li > .liste-zeile { border-top: 0; }
+.liste > li + li { border-top: 1px solid var(--trenner); }
+.liste > li.liste-zeile + li.liste-zeile { border-top: 1px solid var(--trenner); }
+.liste-zeile .c-pfeil, .c-anteil .c-pfeil { transform: scaleX(-1); color: var(--text-3); flex: 0 0 auto; }
+
+/* Klarheit */
+.c-neu { display: flex; gap: var(--s2); margin-top: var(--s3); }
+.c-neu input { flex: 1; min-width: 0; }
+.c-neu .button { padding: var(--s2) var(--s4); flex: 0 0 auto; }
+.c-voll:empty { display: none; }
+.c-voll { margin: var(--s2) 0 0; }
+.c-liga-satz { font-size: var(--fs-title3); line-height: 1.35; }
+
+/* Inneres Team: ganze Karte ist die Tippfläche */
+.c-anteil { display: grid; grid-template-columns: 1fr auto; gap: var(--s1) var(--s3); width: 100%; color: var(--text); padding: var(--s3) var(--s4); }
+.c-anteil > span:not(.c-pfeil) { grid-column: 1; }
+.c-anteil > .c-pfeil { grid-column: 2; grid-row: 1 / span 4; align-self: center; }
+.c-anteil-name { font-size: var(--fs-title3); font-weight: 600; }
+.c-anteil-satz { font-style: italic; }
+.c-anteil-anliegen { font-size: var(--fs-subhead); }
+.c-anteil-meta { font-size: var(--fs-footnote); color: var(--text-2); }
+.c-archiv { margin-top: var(--s5); }
+.c-archiv > summary { min-height: var(--tap); display: flex; align-items: center; padding: 0 var(--s1); font-size: var(--fs-subhead); font-weight: 600; color: var(--primaer-als-text); cursor: pointer; border-radius: var(--r-button); }
+.c-archiv > summary::-webkit-details-marker { display: none; }
+.c-archiv > summary::after { content: ""; width: 7px; height: 7px; margin-left: var(--s3); border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform var(--dauer) var(--ease); }
+.c-archiv[open] > summary::after { transform: rotate(45deg); }
+#c-ressourcen .icon-knopf { color: var(--text-2); }
+.c-archiv .liste-zeile .button { flex: 0 0 auto; padding: var(--s2) var(--s4); }
+.c-aeusserung .t-hinweis { margin-bottom: var(--s1); }
+.c-thema { font-weight: 600; margin-bottom: var(--s2); }
+
+/* Zusammenfassung und Äußerungen: beschriftete Liste */
+.c-zf { margin: 0; }
+.c-zf-zeile { padding: var(--s2) 0; border-top: 1px solid var(--trenner); }
+.c-zf-zeile:first-child { border-top: 0; padding-top: 0; }
+.c-zf dt { font-size: var(--fs-footnote); font-weight: 600; color: var(--text-2); margin-bottom: 2px; }
+.c-zf dd { margin: 0; }
+.c-zf dd > span { display: block; }
+.c-zf-datum { margin-bottom: var(--s3); }
+.c-zf-werte, .c-zf-team { list-style: none; margin: 0; padding: 0; }
+.c-zf-werte li, .c-zf-team li { display: grid; grid-template-columns: 1fr auto; gap: 0 var(--s3); padding: var(--s1) 0; }
+.c-zf-werte .c-zf-satz, .c-zf-team .c-zf-satz { grid-column: 1 / -1; }
+.c-zf-dim { font-weight: 600; }
+.c-zf-wert { font-weight: 600; }
+.c-zf-satz { color: var(--text); }
+.c-zf-frage { font-size: var(--fs-footnote); color: var(--text-2); margin-top: var(--s2); }
+.c-zf-zitat { font-style: italic; }
+
+/* Verlauf: Kurven ohne Bibliothek, Farben nur über Tokens */
+.c-kurve-titel { font-size: var(--fs-subhead); font-weight: 600; color: var(--text-2); margin-bottom: var(--s1); }
+.c-kurve { display: block; overflow: visible; }
+.c-kurve .c-gitter { stroke: var(--rand-farbe); stroke-width: 1; }
+.c-kurve .c-achse { fill: var(--text-2); font-size: 12px; font-variant-numeric: tabular-nums; }
+.c-kurve .c-linie { stroke: var(--primaer-als-text); stroke-width: 2; stroke-linecap: round; }
+.c-kurve .c-treffer { fill: transparent; }
+.c-kurve .c-marke-punkt { fill: var(--primaer-als-text); stroke: var(--karte); stroke-width: 2; }
+.c-kurve .c-punkt { cursor: pointer; outline: none; }
+.c-kurve .c-punkt[aria-pressed="true"] .c-marke-punkt { r: 6px; }
+.c-kurve .c-punkt:focus-visible .c-treffer { stroke: var(--fokus); stroke-width: 2; }
+.c-kurve-info { margin: var(--s2) 0 0; min-height: 1.4em; }
+.c-kurve-info.c-gewaehlt { color: var(--text); font-size: var(--fs-subhead); }
+.c-info-kopf { display: block; font-weight: 600; font-variant-numeric: tabular-nums; }
+.c-info-satz { display: block; margin-top: 2px; }
+.c-skala { margin: var(--s2) var(--s1) 0; }
+
+@media (hover: hover) and (pointer: fine) {
+  .c-anteil:hover { border-color: var(--text-3); }
+  .c-archiv > summary:hover { background: var(--primaer-weich); }
+}
+.c-anteil:active, .c-punkt:active { opacity: .6; }

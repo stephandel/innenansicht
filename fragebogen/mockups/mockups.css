@@ -1,0 +1,116 @@
+/* Stil-Mockups: drei Richtungen im Smartphone-Rahmen. Feste helle Farbwelten, weil sie Farbvorschläge zeigen.
+   Schriften nur als Name mit Systemersatz, keine Ladung von außen. */
+
+/* ---------- Rahmen, 390 × 780, wird per transform skaliert ---------- */
+.phone {
+  width: 390px; height: 780px; overflow: hidden; position: relative;
+  border-radius: 44px; box-shadow: 0 0 0 8px #1C1C1E, 0 0 0 9px #3A3A3C, 0 24px 60px rgba(0,0,0,.35);
+  padding: 0 24px 24px; font-size: 17px; line-height: 1.4; text-align: left;
+  -webkit-font-smoothing: antialiased;
+}
+.phone * { box-sizing: border-box; }
+:where(.phone) h1, :where(.phone) p { margin: 0; } /* niedrige Spezifität, damit die Abstände unten greifen */
+.mk-status { display: flex; justify-content: space-between; align-items: center; height: 54px; padding-top: 14px; font-size: 15px; font-weight: 600; }
+.mk-akku { width: 26px; height: 12px; border: 1.5px solid currentColor; border-radius: 4px; position: relative; opacity: .8; }
+.mk-akku::after { content: ""; position: absolute; inset: 2px; right: 6px; background: currentColor; border-radius: 1px; }
+
+.mk-kopf { margin-top: 24px; }
+.mk-datum { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+.mk-titel { font-size: 32px; line-height: 1.15; margin-top: 4px; font-weight: 700; }
+.mk-block { margin-top: 32px; }
+.mk-label { font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+.mk-label-oben { margin-top: 24px; }
+.mk-skala { display: flex; gap: 4px; margin-top: 12px; }
+.mk-skala span { flex: 1; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-variant-numeric: tabular-nums; }
+.mk-skala-gross span { height: 44px; font-size: 14px; }
+.mk-legende { display: flex; justify-content: space-between; font-size: 12px; margin-top: 6px; }
+.mk-primary { margin-top: 32px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 17px; }
+.mk-sub { font-size: 13px; text-align: center; margin-top: 8px; }
+.mk-karte { margin-top: 16px; padding: 16px; border-radius: 16px; }
+.mk-text { margin-top: 6px; font-size: 16px; line-height: 1.4; }
+.mk-chip { display: inline-block; margin-top: 10px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; }
+.mk-fuss { position: absolute; left: 24px; right: 24px; bottom: 24px; font-size: 12px; line-height: 1.35; text-align: center; }
+
+.mk-nav { display: flex; align-items: center; justify-content: space-between; height: 44px; margin-top: 4px; font-size: 15px; }
+.mk-zurueck { font-weight: 500; }
+.mk-nav-titel { font-weight: 600; }
+.mk-schritt { font-variant-numeric: tabular-nums; }
+.mk-progress { height: 4px; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.mk-progress span { display: block; height: 100%; border-radius: 2px; }
+.mk-frage { font-size: 26px; line-height: 1.25; font-weight: 600; margin-top: 8px; }
+.mk-hilfe { font-size: 15px; margin-top: 10px; }
+.mk-wert { font-size: 44px; font-weight: 600; text-align: center; margin-top: 20px; line-height: 1; font-variant-numeric: tabular-nums; }
+.mk-textfeld { margin-top: 10px; min-height: 108px; padding: 12px 14px; border-radius: 12px; font-size: 16px; line-height: 1.45; }
+.mk-cursor { display: inline-block; width: 2px; height: 1em; vertical-align: -2px; margin-left: 1px; }
+
+/* ---------- Stil 1: Ruhig-minimalistisch (Systemschrift, Grau + Salbei) ---------- */
+.mk-ruhig {
+  font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  background: #F8F8F6; color: #1C1C1E;
+}
+.mk-ruhig .mk-datum, .mk-ruhig .mk-label, .mk-ruhig .mk-sub, .mk-ruhig .mk-legende, .mk-ruhig .mk-hilfe, .mk-ruhig .mk-fuss, .mk-ruhig .mk-schritt { color: #6E6E73; }
+.mk-ruhig .mk-titel { font-weight: 600; letter-spacing: -.01em; }
+.mk-ruhig .mk-skala span { background: #ECECE9; color: #6E6E73; }
+.mk-ruhig .mk-skala span.aktiv { background: #5E8C6A; color: #fff; font-weight: 600; }
+.mk-ruhig .mk-primary { background: #5E8C6A; color: #fff; }
+.mk-ruhig .mk-karte { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.mk-ruhig .mk-chip { background: #E8F0EA; color: #3F6B4A; }
+.mk-ruhig .mk-zurueck { color: #5E8C6A; }
+.mk-ruhig .mk-progress { background: #ECECE9; }
+.mk-ruhig .mk-progress span { background: #5E8C6A; }
+.mk-ruhig .mk-wert { color: #5E8C6A; font-weight: 500; }
+.mk-ruhig .mk-textfeld { background: #fff; border: 1px solid #E3E3E0; color: #1C1C1E; }
+.mk-ruhig .mk-cursor { background: #5E8C6A; }
+
+/* ---------- Stil 2: Warm-editorial (Cormorant Garamond + Inter, Creme, Terrakotta, Tiefgrün) ---------- */
+.mk-warm {
+  font-family: "Inter", -apple-system, "SF Pro Text", system-ui, sans-serif;
+  background: #F6F1E7; color: #2B2622;
+  background-image: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0) 40%);
+}
+.mk-warm .mk-titel, .mk-warm .mk-frage, .mk-warm .mk-wert, .mk-warm .mk-nav-titel {
+  font-family: "Cormorant Garamond", "Iowan Old Style", "Palatino", Georgia, serif;
+  font-weight: 600;
+}
+.mk-warm .mk-titel { font-size: 38px; line-height: 1.1; }
+.mk-warm .mk-frage { font-size: 32px; line-height: 1.2; }
+.mk-warm .mk-nav-titel { font-size: 20px; }
+.mk-warm .mk-datum, .mk-warm .mk-label, .mk-warm .mk-sub, .mk-warm .mk-legende, .mk-warm .mk-hilfe, .mk-warm .mk-fuss, .mk-warm .mk-schritt { color: #6F6358; }
+.mk-warm .mk-label { font-weight: 500; text-transform: uppercase; letter-spacing: .1em; font-size: 12px; }
+.mk-warm .mk-kopf { padding-bottom: 16px; border-bottom: 1px solid #D9CDB8; }
+.mk-warm .mk-skala span { background: #EDE4D3; color: #6F6358; border-radius: 999px; }
+.mk-warm .mk-skala span.davor { background: #E4D8C2; }
+.mk-warm .mk-skala span.aktiv { background: #B5603A; color: #fff; font-weight: 600; }
+.mk-warm .mk-primary { background: #2F5D50; color: #F6F1E7; border-radius: 999px; }
+.mk-warm .mk-karte { background: #FFFBF3; border: 1px solid #E6DCC8; border-radius: 6px; box-shadow: 0 2px 10px rgba(80,60,30,.06); }
+.mk-warm .mk-text { font-family: "Cormorant Garamond", "Iowan Old Style", "Palatino", Georgia, serif; font-size: 19px; line-height: 1.35; }
+.mk-warm .mk-chip { background: #F1E3D7; color: #8E4525; border-radius: 4px; }
+.mk-warm .mk-zurueck { color: #B5603A; }
+.mk-warm .mk-progress { background: #E4D8C2; height: 3px; }
+.mk-warm .mk-progress span { background: #B5603A; }
+.mk-warm .mk-wert { color: #B5603A; font-size: 52px; }
+.mk-warm .mk-textfeld { background: #FFFBF3; border: 1px solid #D9CDB8; border-radius: 6px; color: #2B2622; }
+.mk-warm .mk-cursor { background: #B5603A; }
+
+/* ---------- Stil 3: Klar-strukturiert (Systemschrift, Navy, Weiß, ein Signalton) ---------- */
+.mk-klar {
+  font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  background: #F3F5F8; color: #14213D;
+}
+.mk-klar .mk-datum, .mk-klar .mk-label, .mk-klar .mk-sub, .mk-klar .mk-legende, .mk-klar .mk-hilfe, .mk-klar .mk-fuss, .mk-klar .mk-schritt { color: #5B6578; }
+.mk-klar .mk-titel { font-size: 28px; font-weight: 700; letter-spacing: -.01em; }
+.mk-klar .mk-block { background: #fff; border: 1px solid #DDE3EC; border-radius: 12px; padding: 14px 16px 16px; margin-top: 24px; }
+.mk-klar .mk-skala span { background: #EEF2F7; color: #5B6578; border-radius: 6px; border: 1px solid #DDE3EC; }
+.mk-klar .mk-skala span.aktiv { background: #1F3A5F; color: #fff; border-color: #1F3A5F; font-weight: 600; }
+.mk-klar .mk-primary { background: #1F3A5F; color: #fff; border-radius: 10px; margin-top: 24px; }
+.mk-klar .mk-karte { background: #fff; border: 1px solid #DDE3EC; border-radius: 12px; }
+.mk-klar .mk-karte .mk-label { padding-bottom: 8px; border-bottom: 1px solid #EEF2F7; margin: -4px -16px 8px; padding-left: 16px; padding-right: 16px; }
+.mk-klar .mk-chip { background: #FFF1E6; color: #B4500F; }
+.mk-klar .mk-zurueck { color: #1F3A5F; }
+.mk-klar .mk-nav { border-bottom: 1px solid #DDE3EC; }
+.mk-klar .mk-progress { background: #DDE3EC; height: 6px; border-radius: 3px; }
+.mk-klar .mk-progress span { background: #E07A1F; }
+.mk-klar .mk-frage { font-size: 24px; }
+.mk-klar .mk-wert { color: #1F3A5F; }
+.mk-klar .mk-textfeld { background: #fff; border: 1px solid #C9D2DF; border-radius: 10px; color: #14213D; }
+.mk-klar .mk-cursor { background: #E07A1F; }

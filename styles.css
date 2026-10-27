@@ -1,0 +1,268 @@
+/* Innenansicht. Stil „klar-strukturiert“ (fragebogen/mockups/mockups.css, Stil 3): Systemschrift, Navy auf hellem Grau,
+   weiße Karten mit Rand, ein Signalton. Grundlage apple-ui (Größenstufen, Abstände, Tippflächen). Werte nur über Variablen. */
+
+:root {
+  --font: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  --fs-large-title: 2.125rem; --fs-title1: 1.75rem; --fs-title2: 1.375rem; --fs-title3: 1.25rem;
+  --fs-body: 1.0625rem; --fs-subhead: 0.9375rem; --fs-footnote: 0.8125rem; --fs-caption: 0.75rem;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px; --s8: 32px; --tap: 44px;
+  --rand: var(--s4);
+  --r-karte: 12px; --r-button: 10px; --r-feld: 10px; --r-chip: 999px;
+  --ease: cubic-bezier(.32,.72,0,1); --dauer: 240ms;
+  --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px); --safe-right: env(safe-area-inset-right, 0px);
+  --spalte: 480px;
+  --unten-hoehe: 108px; /* wird per JS nachgemessen (Krisenzeile + Tab-Leiste) */
+
+  /* Farbprofil Navy (Standard). Je Profil: Primär hell, Primär dunkel (eine Stufe heller), Primär als Text im Dunkeln, Signal, Chip-Text */
+  --p-hell: #1F3A5F; --p-dunkel: #2F5280; --p-licht: #9DBCE4; --signal: #E07A1F; --chip-text-hell: #B4500F;
+
+  /* Helle Erscheinung */
+  color-scheme: light;
+  --bg: #F3F5F8; --karte: #FFFFFF; --rand-farbe: #DDE3EC; --trenner: #EEF2F7;
+  --text: #14213D; --text-2: #5B6578; --text-3: #66728A;
+  --primaer: var(--p-hell); --primaer-text: #FFFFFF; --primaer-als-text: var(--p-hell);
+  --primaer-weich: #EEF2F7; --fokus: var(--p-hell);
+  --chip-bg: #FFF1E6; --chip-text: var(--chip-text-hell);
+  --feld-rand: #C9D2DF; --feld-bg: #FFFFFF;
+  --rot: #B3261E; --rot-weich: #FBECEA;
+  --hinweis-bg: #FFF1E6; --hinweis-text: #8A4A12;
+  --toast-bg: #14213D; --toast-text: #FFFFFF;
+  --backdrop: rgba(20,33,61,.45);
+}
+:root[data-profil="petrol"]  { --p-hell: #0E5A66; --p-dunkel: #1E7A8A; --p-licht: #7FC8D4; --signal: #C9792B; --chip-text-hell: #8F5114; }
+:root[data-profil="graphit"] { --p-hell: #2F3A48; --p-dunkel: #4A586B; --p-licht: #A9B8CC; --signal: #D08C2E; --chip-text-hell: #8E5A14; }
+:root[data-profil="tanne"]   { --p-hell: #2F5D50; --p-dunkel: #3F7A6A; --p-licht: #8FC9B8; --signal: #C8742C; --chip-text-hell: #8C4D13; }
+:root[data-profil="pflaume"] { --p-hell: #4A3A66; --p-dunkel: #665386; --p-licht: #BBA8DC; --signal: #D0803A; --chip-text-hell: #8F5417; }
+
+/* Dunkle Erscheinung: einmal fest gewählt, einmal automatisch nach System */
+:root[data-erscheinung="dunkel"] {
+  color-scheme: dark;
+  --bg: #0F141B; --karte: #1A212B; --rand-farbe: #2A3442; --trenner: #243040;
+  --text: #E8ECF2; --text-2: #9AA6B8; --text-3: #8A96A8;
+  --primaer: var(--p-dunkel); --primaer-als-text: var(--p-licht); --primaer-weich: #243040; --fokus: var(--p-licht);
+  --chip-bg: #3A2A16; --chip-text: #F0B27A;
+  --feld-rand: #3A4656; --feld-bg: #141B24;
+  --rot: #FF8A80; --rot-weich: #3A1E1C;
+  --hinweis-bg: #3A2A16; --hinweis-text: #F5D3B0;
+  --toast-bg: #E8ECF2; --toast-text: #0F141B;
+  --backdrop: rgba(0,0,0,.6);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-erscheinung="hell"]) {
+    color-scheme: dark;
+    --bg: #0F141B; --karte: #1A212B; --rand-farbe: #2A3442; --trenner: #243040;
+    --text: #E8ECF2; --text-2: #9AA6B8; --text-3: #8A96A8;
+    --primaer: var(--p-dunkel); --primaer-als-text: var(--p-licht); --primaer-weich: #243040; --fokus: var(--p-licht);
+    --chip-bg: #3A2A16; --chip-text: #F0B27A;
+    --feld-rand: #3A4656; --feld-bg: #141B24;
+    --rot: #FF8A80; --rot-weich: #3A1E1C;
+    --hinweis-bg: #3A2A16; --hinweis-text: #F5D3B0;
+    --toast-bg: #E8ECF2; --toast-text: #0F141B;
+    --backdrop: rgba(0,0,0,.6);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+body {
+  margin: 0; font-family: var(--font); font-size: var(--fs-body); line-height: 1.4;
+  color: var(--text); background: var(--bg); -webkit-font-smoothing: antialiased;
+  overflow-wrap: anywhere; /* lange Wörter ohne Leerzeichen sprengen sonst die Breite */
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+h1, h2, h3 { margin: 0; font-weight: 600; }
+p { margin: 0 0 var(--s3); }
+p:last-child { margin-bottom: 0; }
+ul, ol { margin: 0; padding-left: var(--s5); }
+a { color: var(--primaer-als-text); }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.zahlen { font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 2px solid var(--fokus); outline-offset: 2px; border-radius: var(--r-button); }
+[data-fokus]:focus { outline: none; }
+
+/* Schmale Spalte: iPhone volle Breite, Schreibtisch mittig */
+.app { max-width: var(--spalte); margin: 0 auto; min-height: 100dvh; position: relative; }
+@media (min-width: 560px) {
+  .app { border-left: 1px solid var(--rand-farbe); border-right: 1px solid var(--rand-farbe); }
+}
+
+/* Textstufen */
+.t-large-title { font-size: var(--fs-large-title); font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
+.t-titel { font-size: var(--fs-title2); font-weight: 600; line-height: 1.25; }
+.t-title3 { font-size: var(--fs-title3); font-weight: 600; }
+.t-sub { font-size: var(--fs-subhead); color: var(--text-2); }
+.t-hinweis { font-size: var(--fs-footnote); color: var(--text-2); }
+.t-caption { font-size: var(--fs-caption); color: var(--text-2); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+
+/* Titelzeile: klebt oben, Rand unten wie im Stil */
+.titelzeile {
+  position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--rand-farbe);
+  padding: calc(var(--safe-top) + var(--s2)) calc(var(--rand) + var(--safe-right)) var(--s2) calc(var(--rand) + var(--safe-left));
+  min-height: calc(var(--safe-top) + var(--tap) + var(--s2) * 2);
+  display: flex; align-items: center; gap: var(--s2) var(--s3);
+}
+.titelzeile:empty { display: none; }
+.titelzeile .kopf-gross { flex: 1; min-width: 0; padding: var(--s2) 0 var(--s1); }
+.titelzeile .kopf-gross .t-sub { margin-top: 2px; }
+.titelzeile .titel { flex: 1; min-width: 0; font-size: var(--fs-body); font-weight: 600; text-align: center; }
+.titelzeile .platz { width: var(--tap); flex: 0 0 auto; }
+.icon-knopf {
+  width: var(--tap); height: var(--tap); border-radius: var(--r-button); flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center; color: var(--primaer-als-text);
+}
+.text-knopf { min-height: var(--tap); padding: 0 var(--s2); border-radius: var(--r-button); color: var(--primaer-als-text); font-weight: 600; flex: 0 0 auto; display: inline-flex; align-items: center; }
+svg.ic { width: 24px; height: 24px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+svg.ic.klein { width: 18px; height: 18px; }
+
+/* Inhalt */
+.inhalt { padding: var(--s4) calc(var(--rand) + var(--safe-right)) calc(var(--unten-hoehe) + var(--s6)) calc(var(--rand) + var(--safe-left)); }
+.abschnitt { margin-top: var(--s5); }
+.abschnitt:first-child { margin-top: 0; }
+.abschnitt > .t-caption { display: block; padding: 0 var(--s1) var(--s2); }
+.begruessung { margin-bottom: var(--s4); }
+
+/* Karten: weiß, Rand, Radius 12 */
+.karte { background: var(--karte); border: 1px solid var(--rand-farbe); border-radius: var(--r-karte); padding: var(--s3) var(--s4) var(--s4); }
+.karte + .karte { margin-top: var(--s3); }
+.karte-titel { font-size: var(--fs-subhead); font-weight: 600; color: var(--text-2); padding-bottom: var(--s2); margin: 0 calc(var(--s4) * -1) var(--s3); padding-left: var(--s4); padding-right: var(--s4); border-bottom: 1px solid var(--trenner); }
+.karte .t-titel { margin-bottom: var(--s1); }
+.karte .reihe { margin-top: var(--s3); }
+.hinweis-box { background: var(--hinweis-bg); color: var(--hinweis-text); border-radius: var(--r-button); padding: var(--s3) var(--s4); font-size: var(--fs-subhead); }
+.chip { display: inline-flex; align-items: center; min-height: 24px; padding: 2px var(--s3); border-radius: var(--r-chip); background: var(--chip-bg); color: var(--chip-text); font-size: var(--fs-footnote); font-weight: 600; }
+
+/* Knöpfe: primär Navy, sekundär leise */
+.button {
+  min-height: var(--tap); padding: var(--s2) var(--s5); border-radius: var(--r-button);
+  background: var(--primaer); color: var(--primaer-text); font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); text-align: center;
+  transition: opacity var(--dauer) var(--ease), transform var(--dauer) var(--ease);
+}
+.button.leise { background: var(--primaer-weich); color: var(--primaer-als-text); }
+.button.rand { background: none; border: 1px solid var(--rand-farbe); color: var(--primaer-als-text); }
+.button.breit { width: 100%; }
+.button.rot { background: none; color: var(--rot); font-weight: 500; }
+.button[aria-disabled="true"] { opacity: .45; }
+.reihe { display: flex; gap: var(--s3); margin-top: var(--s4); }
+.reihe > .button { flex: 1; }
+.reihe.stapel { flex-direction: column; }
+.button:active, .icon-knopf:active, .text-knopf:active, .tabs button:active, .krisenzeile button:active, .skala button:active, .wahl:active, .liste-zeile:active { opacity: .6; transform: scale(.98); }
+
+/* Listen: Zeilen mit Trenner, Tippfläche 44 */
+.liste { margin: 0; padding: 0; list-style: none; }
+.liste-zeile { display: flex; align-items: center; gap: var(--s3); min-height: var(--tap); padding: var(--s2) 0; border-top: 1px solid var(--trenner); width: 100%; color: var(--text); }
+.liste-zeile:first-child { border-top: 0; }
+.liste-zeile .text { flex: 1; min-width: 0; }
+.liste-zeile .nebentext { font-size: var(--fs-footnote); color: var(--text-2); flex: 0 0 auto; }
+.liste-zeile .punkt { width: 8px; height: 8px; border-radius: 50%; background: var(--primaer); flex: 0 0 auto; }
+
+/* Formularfelder */
+.feld-label { display: block; font-size: var(--fs-subhead); color: var(--text-2); margin-bottom: var(--s1); }
+textarea, input[type="text"] {
+  width: 100%; min-height: var(--tap); padding: var(--s3) var(--s4); border-radius: var(--r-feld);
+  border: 1px solid var(--feld-rand); background: var(--feld-bg); color: var(--text); resize: vertical;
+}
+textarea { min-height: 96px; }
+textarea::placeholder, input::placeholder { color: var(--text-3); }
+.feld + .feld { margin-top: var(--s3); }
+
+/* Auswahl (Farbprofil, Erscheinung): Reihe aus Tippflächen, gewählte in Primärfarbe gerahmt */
+.wahl-gruppe { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.wahl {
+  min-height: var(--tap); padding: var(--s2) var(--s3); border-radius: var(--r-button); border: 1.5px solid var(--rand-farbe);
+  background: var(--karte); color: var(--text); display: inline-flex; align-items: center; gap: var(--s2); font-size: var(--fs-subhead); font-weight: 500;
+}
+.wahl[aria-checked="true"] { border-color: var(--primaer); background: var(--primaer-weich); font-weight: 600; }
+.wahl .farbpunkt { width: 20px; height: 20px; border-radius: 50%; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.12); }
+.farbpunkt[data-profil="navy"] { background: #1F3A5F; }
+.farbpunkt[data-profil="petrol"] { background: #0E5A66; }
+.farbpunkt[data-profil="graphit"] { background: #2F3A48; }
+.farbpunkt[data-profil="tanne"] { background: #2F5D50; }
+.farbpunkt[data-profil="pflaume"] { background: #4A3A66; }
+.segment { display: flex; background: var(--primaer-weich); border-radius: var(--r-button); padding: 3px; gap: 3px; }
+.segment button { flex: 1; min-height: var(--tap); border-radius: 8px; text-align: center; font-weight: 500; font-size: var(--fs-subhead); color: var(--text); padding: 0 var(--s1); }
+.segment button[aria-checked="true"] { background: var(--primaer); color: var(--primaer-text); font-weight: 600; }
+
+/* Fortschrittsleiste (Teil B): Spur im Rand-Grau, Füllung im Signalton */
+.fortschritt { height: 6px; border-radius: 3px; background: var(--rand-farbe); overflow: hidden; }
+.fortschritt > span { display: block; height: 100%; background: var(--signal); border-radius: 3px; transition: width var(--dauer) var(--ease); }
+
+/* Skala 0–10 (Teil B): elf Tippflächen in zwei Reihen (6 + 5), je mindestens 44 px */
+.skala { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s2); }
+.skala button {
+  min-height: var(--tap); min-width: var(--tap); border-radius: 6px; border: 1px solid var(--rand-farbe); background: var(--primaer-weich); color: var(--text-2);
+  text-align: center; font-weight: 500; font-variant-numeric: tabular-nums;
+}
+.skala button[aria-pressed="true"], .skala button[aria-checked="true"] { background: var(--primaer); color: var(--primaer-text); border-color: var(--primaer); font-weight: 600; }
+.skala-pole { display: flex; justify-content: space-between; font-size: var(--fs-footnote); color: var(--text-2); margin-top: var(--s2); }
+
+/* Fuß: Krisenzeile und Tab-Leiste, fest unten, mit Safe Area */
+.unten {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: var(--spalte); z-index: 20;
+  background: var(--karte); border-top: 1px solid var(--rand-farbe);
+  padding-bottom: var(--safe-bottom);
+}
+.krisenzeile button {
+  width: 100%; min-height: var(--tap); padding: var(--s2) calc(var(--rand) + var(--safe-right)) var(--s2) calc(var(--rand) + var(--safe-left));
+  font-size: var(--fs-footnote); color: var(--text-2); text-align: center; line-height: 1.3;
+}
+.krisenzeile button b { color: var(--text); font-weight: 600; }
+.tabs { display: flex; border-top: 1px solid var(--rand-farbe); padding: 0 var(--safe-right) 0 var(--safe-left); }
+.tabs[hidden] { display: none; }
+.tabs button {
+  flex: 1; min-height: 50px; min-width: 0; padding: var(--s1) var(--s1) var(--s2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  color: var(--text-2); font-size: var(--fs-caption); font-weight: 500; text-align: center; border-radius: var(--r-button);
+}
+.tabs button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.tabs button[aria-selected="true"] { color: var(--primaer-als-text); font-weight: 600; }
+.tabs button[aria-selected="true"] svg.ic { fill: var(--primaer-weich); }
+
+/* Erststart */
+.erststart .karte { padding-top: var(--s5); }
+.erststart .t-large-title { margin-bottom: var(--s1); }
+.erststart .untertitel { font-size: var(--fs-title3); color: var(--text-2); margin-bottom: var(--s4); }
+.erststart .reihe { margin-top: var(--s5); }
+.krise-block { margin-top: var(--s4); padding: var(--s3) var(--s4); border-left: 3px solid var(--signal); background: var(--bg); border-radius: 0 var(--r-button) var(--r-button) 0; }
+.krise-block p { font-size: var(--fs-subhead); }
+
+/* Install-Hinweis (nur Safari auf iPhone/iPad) */
+.install-hinweis { background: var(--hinweis-bg); color: var(--hinweis-text); border-radius: var(--r-button); padding: var(--s3) var(--s4); margin-top: var(--s3); }
+.install-hinweis .t-sub { color: var(--hinweis-text); font-weight: 600; }
+.install-hinweis .t-hinweis { color: var(--hinweis-text); opacity: .85; margin-top: var(--s2); }
+.install-schritte { list-style: none; margin: var(--s2) 0 0; padding: 0; counter-reset: schritt; }
+.install-schritte li { display: flex; align-items: center; gap: var(--s2); min-height: 32px; font-size: var(--fs-subhead); counter-increment: schritt; }
+.install-schritte li::before { content: counter(schritt); flex: 0 0 22px; height: 22px; border-radius: 50%; background: var(--hinweis-text); color: var(--hinweis-bg); font-size: var(--fs-caption); font-weight: 600; display: inline-flex; align-items: center; justify-content: center; }
+.install-schritte .ic { flex: 0 0 auto; }
+.install-hinweis .button { min-height: var(--tap); margin-top: var(--s2); padding: var(--s1) var(--s3); font-size: var(--fs-subhead); background: none; color: var(--hinweis-text); border: 1px solid currentColor; }
+
+/* Dialoge */
+.dialog { border: 0; padding: 0; background: var(--karte); color: var(--text); border-radius: var(--r-karte); width: min(var(--spalte), calc(100% - 2 * var(--rand))); max-height: calc(100dvh - 2 * var(--s8)); }
+.dialog::backdrop { background: var(--backdrop); }
+.dialog-inhalt { padding: var(--s4) var(--rand) calc(var(--s4) + var(--safe-bottom)); }
+.dialog-kopf { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
+.dialog-kopf h2 { flex: 1; font-size: var(--fs-title3); }
+.dialog .reihe { margin-top: var(--s5); }
+.dialog .button.rot { background: var(--rot-weich); font-weight: 600; }
+
+/* Fehler-Ansicht und Fuß der Einstellungen */
+.ende-fuss { margin-top: var(--s8); text-align: center; }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(var(--unten-hoehe) + var(--s4)); transform: translateX(-50%) translateY(8px);
+  background: var(--toast-bg); color: var(--toast-text); padding: var(--s3) var(--s4); border-radius: var(--r-button);
+  font-size: var(--fs-subhead); max-width: calc(100% - 2 * var(--rand)); opacity: 0; pointer-events: none; z-index: 40;
+  transition: opacity var(--dauer) var(--ease), transform var(--dauer) var(--ease);
+}
+.toast[data-offen] { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (hover: hover) and (pointer: fine) {
+  .icon-knopf:hover, .text-knopf:hover, .button.leise:hover, .tabs button:hover { background: var(--primaer-weich); }
+  .wahl:hover { border-color: var(--text-3); }
+  .wahl[aria-checked="true"]:hover { border-color: var(--primaer); }
+  button, .button { cursor: pointer; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

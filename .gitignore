@@ -1,0 +1,11 @@
+# Öffentliches Repository: nur App und Fragebogen. Dokumente, Notizen und Vorarbeiten bleiben lokal.
+.DS_Store
+node_modules/
+*.bak
+.claude/
+privat/
+anleitung-video/
+*Website/
+dummy/
+*.md
+!README.md

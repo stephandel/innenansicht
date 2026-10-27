@@ -1,0 +1,72 @@
+/* Teil B: Stile der Wochensitzung. Tokens kommen aus styles.css. */
+
+/* Kopf: Titel mittig, „Schließen“ rechts, darunter Schritt und Fortschritt */
+.sitzung-kopf { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--s1); padding-bottom: var(--s1); }
+.sitzung-kopf-zeile { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--s2); }
+.sitzung-kopf-zeile .titel { font-size: var(--fs-body); font-weight: 600; text-align: center; }
+.sitzung-kopf-zeile .text-knopf { justify-self: end; }
+.sitzung-schritt { display: flex; justify-content: space-between; gap: var(--s3); }
+
+/* Fragebildschirm */
+.sitzung .datum-zeile { margin-bottom: var(--s3); }
+.sitzung-kontext { display: block; margin-bottom: var(--s2); }
+.sitzung .frage { font-size: var(--fs-title2); font-weight: 600; line-height: 1.25; margin-bottom: var(--s3); }
+.sitzung .frage.abstand { margin-top: var(--s5); }
+.sitzung .feld { margin-top: var(--s4); }
+.sitzung .t-sub { margin-bottom: var(--s3); }
+.sitzung textarea { min-height: var(--tap); resize: none; overflow: hidden; line-height: 1.4; font-size: var(--fs-body); }
+.sitzung input[type="text"] { font-size: var(--fs-body); }
+.sitzung-nav { margin-top: var(--s6); }
+.abstand-oben { margin-top: var(--s3); }
+.zitat { border-left: 3px solid var(--rand-farbe); padding: var(--s1) var(--s3); color: var(--text-2); font-size: var(--fs-subhead); margin: var(--s2) 0 var(--s3); }
+.zuletzt { margin-top: var(--s3); }
+
+/* Vorschläge aus „Wichtig jetzt“: Chips mit voller Tippfläche */
+.vorschlaege-titel { margin-top: var(--s4); margin-bottom: var(--s2); }
+.vorschlaege { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.vorschlag { min-height: var(--tap); padding: var(--s2) var(--s4); border-radius: var(--r-chip); background: var(--chip-bg); color: var(--chip-text); font-size: var(--fs-subhead); font-weight: 600; text-align: left; }
+
+/* Auswahllisten: ganze Zeile tippbar, Nebentext darunter */
+.wahl-liste { display: flex; flex-direction: column; gap: var(--s2); margin-top: var(--s2); }
+.wahl.zeile { width: 100%; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; text-align: left; font-size: var(--fs-body); }
+.wahl .nebentext { font-size: var(--fs-footnote); color: var(--text-2); font-weight: 400; }
+.wahl-gruppe .wahl { font-size: var(--fs-body); }
+.wahl[aria-disabled="true"], .button[aria-disabled="true"] { opacity: .45; }
+.sitzung .feld-label { margin-top: var(--s4); }
+
+/* Rückblick: Tabelle oder Kurven aus Teil C */
+.rueckblick { margin-bottom: var(--s2); overflow-x: auto; }
+.rueckblick-tabelle { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: var(--fs-subhead); }
+.rueckblick-tabelle th, .rueckblick-tabelle td { padding: var(--s2) var(--s1); text-align: right; border-bottom: 1px solid var(--trenner); font-weight: 400; }
+.rueckblick-tabelle th[scope="row"] { text-align: left; color: var(--text); }
+.rueckblick-tabelle thead th { color: var(--text-2); font-size: var(--fs-footnote); font-weight: 600; }
+.rueckblick-tabelle tr:last-child > * { border-bottom: 0; }
+.rueckblick-kurve { margin: 0 0 var(--s3); }
+.rueckblick-kurve:last-child { margin-bottom: 0; }
+.rueckblick-kurve svg { display: block; width: 100%; height: auto; }
+
+/* Klarheit: Liste mit Knöpfen je Zeile, Eingabe mit „Hinzufügen“ */
+.wichtig-liste { padding: var(--s1) var(--s2) var(--s1) var(--s4); }
+.wichtig-liste .liste-zeile { flex-wrap: wrap; gap: 0 var(--s1); }
+.wichtig-liste .text { flex: 1 1 140px; }
+.text-knopf.klein { font-size: var(--fs-subhead); font-weight: 500; }
+.text-knopf.leise-rot { color: var(--rot); }
+.neu-zeile { display: flex; gap: var(--s2); align-items: stretch; }
+.neu-zeile input { flex: 1; min-width: 0; }
+.neu-zeile .button { flex: 0 0 auto; padding-left: var(--s4); padding-right: var(--s4); }
+.liga-karte { margin-top: var(--s5); }
+
+/* Zusammenfassung */
+.zusammenfassung { margin: 0; }
+.zusammenfassung dt { font-size: var(--fs-footnote); font-weight: 600; color: var(--text-2); margin-top: var(--s4); }
+.zusammenfassung dt:first-child { margin-top: 0; }
+.zusammenfassung dd { margin: var(--s1) 0 0; }
+.zusammenfassung dd p { margin-bottom: var(--s2); }
+.zusammenfassung .zf-frage { font-size: var(--fs-subhead); font-weight: 600; margin-bottom: var(--s1); }
+.zusammenfassung .zf-wert { padding: 2px 0; }
+.zusammenfassung .t-sub { margin-bottom: var(--s1); }
+
+@media (hover: hover) and (pointer: fine) {
+  .vorschlag:hover { opacity: .85; }
+}
+.vorschlag:active { opacity: .6; transform: scale(.98); }

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="referrer" content="no-referrer">
+<title>Innenansicht</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1F3A5F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Innenansicht">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="sitzung.css">
+<link rel="stylesheet" href="bereiche.css">
+</head>
+<body>
+<!-- Alle Texte kommen aus inhalte.js. Hier steht nur das Gerüst; die Reiter füllt app.js. -->
+<div class="app" id="app">
+  <header class="titelzeile" id="kopf"></header>
+  <main class="inhalt" id="inhalt"></main>
+</div>
+<div class="unten" id="unten">
+  <footer class="krisenzeile"><button type="button" id="krisenzeile" data-aktion="krise"></button></footer>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Bereiche"></nav>
+</div>
+
+<dialog id="dlg" class="dialog"></dialog>
+<input type="file" id="import-datei" accept=".json,application/json" hidden>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="inhalte.js"></script>
+<script src="speicher.js"></script>
+<script src="app.js"></script>
+<script src="sitzung.js"></script>
+<script src="bereiche.js"></script>
+</body>
+</html>

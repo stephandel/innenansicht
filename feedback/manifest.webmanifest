@@ -1,0 +1,14 @@
+{
+  "name": "Feedback Innenansicht",
+  "short_name": "Feedback",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F3F5F8",
+  "theme_color": "#1F3A5F",
+  "lang": "de",
+  "icons": [
+    { "src": "../icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "../apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "../icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,0 +1,159 @@
+/* Stile: Form der Oberfläche, wählbar in den Einstellungen (data-stil an <html>). „klar“ ist der Grundstil aus styles.css
+   und braucht hier nichts. Jeder Stil setzt Tokens für hell und, mit höherer Spezifität, für dunkel (fest und automatisch),
+   damit die Dunkelregeln aus styles.css nicht von den Stilregeln überdeckt werden. Farbprofil (Primärfarbe) bleibt unabhängig. */
+
+/* ---------- Glas: milchige Flächen auf weichem Verlauf, runde Leisten ---------- */
+:root[data-stil="glas"] {
+  --r-karte: 22px; --r-button: 999px; --r-feld: 16px;
+  --bg: #D9E5EA; --karte: rgba(255,255,255,.62); --rand-farbe: rgba(255,255,255,.8); --trenner: rgba(15,42,50,.12);
+  --text: #0F2A32; --text-2: #3A535C; --text-3: #5C737B;
+  --primaer-weich: rgba(15,42,50,.08); --feld-bg: rgba(255,255,255,.72); --feld-rand: rgba(15,42,50,.22);
+  --glas-kante: rgba(255,255,255,.9); --glas-schatten: rgba(15,42,50,.10);
+  --glas-verlauf: radial-gradient(120% 70% at 10% 0%, #E4EEF1 0%, transparent 60%), radial-gradient(90% 60% at 100% 20%, #DCEBE2 0%, transparent 60%), radial-gradient(80% 60% at 50% 100%, #EEE8DC 0%, transparent 60%);
+}
+:root[data-stil="glas"][data-erscheinung="dunkel"] {
+  --bg: #141C25; --karte: rgba(36,46,60,.6); --rand-farbe: rgba(255,255,255,.1); --trenner: rgba(255,255,255,.1);
+  --text: #E8ECF2; --text-2: #A3AFC0; --text-3: #8A96A8;
+  --primaer-weich: rgba(255,255,255,.08); --feld-bg: rgba(0,0,0,.25); --feld-rand: rgba(255,255,255,.18);
+  --glas-kante: rgba(255,255,255,.08); --glas-schatten: rgba(0,0,0,.35);
+  --glas-verlauf: radial-gradient(120% 70% at 10% 0%, #0F1A1E 0%, transparent 60%), radial-gradient(90% 60% at 100% 20%, #10181C 0%, transparent 60%), radial-gradient(80% 60% at 50% 100%, #0F141B 0%, transparent 60%);
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-stil="glas"]:not([data-erscheinung="hell"]) {
+    --bg: #141C25; --karte: rgba(36,46,60,.6); --rand-farbe: rgba(255,255,255,.1); --trenner: rgba(255,255,255,.1);
+    --text: #E8ECF2; --text-2: #A3AFC0; --text-3: #8A96A8;
+    --primaer-weich: rgba(255,255,255,.08); --feld-bg: rgba(0,0,0,.25); --feld-rand: rgba(255,255,255,.18);
+    --glas-kante: rgba(255,255,255,.08); --glas-schatten: rgba(0,0,0,.35);
+    --glas-verlauf: radial-gradient(120% 70% at 10% 0%, #0F1A1E 0%, transparent 60%), radial-gradient(90% 60% at 100% 20%, #10181C 0%, transparent 60%), radial-gradient(80% 60% at 50% 100%, #0F141B 0%, transparent 60%);
+  }
+}
+/* Verlauf als feste Fläche hinter allem; body selbst bleibt durchsichtig */
+:root[data-stil="glas"] body { background: transparent; }
+:root[data-stil="glas"] body::before { content: ""; position: fixed; inset: 0; z-index: -1; background: var(--glas-verlauf), var(--bg); }
+:root[data-stil="glas"] .titelzeile { background: color-mix(in srgb, var(--bg) 70%, transparent); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+:root[data-stil="glas"] .karte, :root[data-stil="glas"] .dialog { -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: 0 8px 30px var(--glas-schatten), inset 0 1px 0 var(--glas-kante); }
+:root[data-stil="glas"] .dialog { background: var(--bg); } /* deckend, sonst drückt die abgedunkelte Rückwand den Kontrast der Dialogknöpfe */
+:root[data-stil="glas"] .icon-knopf { background: var(--karte); border: 1px solid var(--rand-farbe); border-radius: 50%; }
+:root[data-stil="glas"] .skala button { border-radius: var(--r-chip); background: var(--karte); }
+:root[data-stil="glas"] .skala button[aria-pressed="true"], :root[data-stil="glas"] .skala button[aria-checked="true"] { background: var(--primaer); }
+:root[data-stil="glas"] .wahl.zeile, :root[data-stil="glas"] .c-anteil, :root[data-stil="glas"] .hinweis-box, :root[data-stil="glas"] .install-hinweis, :root[data-stil="glas"] .krise-block { border-radius: var(--r-feld); }
+:root[data-stil="glas"] .segment button { border-radius: var(--r-chip); }
+/* Fuß: Krisenzeile und Reiter als schwebende Pillen, Inhalt läuft darunter durch */
+:root[data-stil="glas"] .unten { background: transparent; border-top: 0; padding: 0 calc(var(--rand) + var(--safe-right)) calc(var(--safe-bottom) + var(--s2)) calc(var(--rand) + var(--safe-left)); }
+:root[data-stil="glas"] .krisenzeile button { background: var(--karte); border: 1px solid var(--rand-farbe); border-radius: var(--r-chip); padding-left: var(--s4); padding-right: var(--s4); margin-bottom: var(--s2); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+:root[data-stil="glas"] .tabs { border: 1px solid var(--rand-farbe); background: var(--karte); border-radius: var(--r-chip); padding: 4px; gap: 0; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: 0 8px 30px var(--glas-schatten), inset 0 1px 0 var(--glas-kante); }
+:root[data-stil="glas"] .tabs button { border-radius: var(--r-chip); min-height: 52px; padding-left: 2px; padding-right: 2px; }
+:root[data-stil="glas"] .tabs button[aria-selected="true"] { background: var(--primaer); color: var(--primaer-text); }
+:root[data-stil="glas"] .tabs button[aria-selected="true"] svg.ic { fill: none; }
+
+/* ---------- Weich: Creme, große Rundungen, Serifen in den Titeln ---------- */
+:root[data-stil="weich"] {
+  --r-karte: 24px; --r-button: 999px; --r-feld: 18px;
+  --font-titel: ui-serif, "Iowan Old Style", "Palatino", Georgia, serif;
+  --bg: #F7F3EC; --karte: #FFFDF9; --rand-farbe: #EDE5D8; --trenner: #F1EBE0;
+  --text: #2B2520; --text-2: #6E6359; --text-3: #7A6F65;
+  --primaer-weich: #F3EBE0; --feld-bg: #FFFDF9; --feld-rand: #E3D8C8;
+  --toast-bg: #2B2520; --toast-text: #FFFDF9;
+}
+:root[data-stil="weich"][data-erscheinung="dunkel"] {
+  --bg: #1B1714; --karte: #262019; --rand-farbe: #352D26; --trenner: #2F2822;
+  --text: #F1EBE3; --text-2: #B3A799; --text-3: #9A8F82;
+  --primaer-weich: #352D26; --feld-bg: #1F1A16; --feld-rand: #44392F;
+  --toast-bg: #F1EBE3; --toast-text: #1B1714;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-stil="weich"]:not([data-erscheinung="hell"]) {
+    --bg: #1B1714; --karte: #262019; --rand-farbe: #352D26; --trenner: #2F2822;
+    --text: #F1EBE3; --text-2: #B3A799; --text-3: #9A8F82;
+    --primaer-weich: #352D26; --feld-bg: #1F1A16; --feld-rand: #44392F;
+    --toast-bg: #F1EBE3; --toast-text: #1B1714;
+  }
+}
+:root[data-stil="weich"] .t-large-title { font-weight: 600; letter-spacing: 0; }
+:root[data-stil="weich"] .titelzeile { border-bottom: 0; }
+:root[data-stil="weich"] .karte { border: 0; box-shadow: 0 2px 0 var(--rand-farbe); padding: var(--s4) var(--s5) var(--s5); }
+:root[data-stil="weich"] .karte-titel { margin-left: calc(var(--s5) * -1); margin-right: calc(var(--s5) * -1); padding-left: var(--s5); padding-right: var(--s5); }
+:root[data-stil="weich"] .t-caption { color: var(--primaer-als-text); letter-spacing: .1em; }
+:root[data-stil="weich"] .chip, :root[data-stil="weich"] .vorschlag { background: var(--primaer); color: var(--primaer-text); }
+:root[data-stil="weich"] .liste-zeile .punkt { width: 10px; height: 10px; }
+:root[data-stil="weich"] .skala button { border-radius: var(--r-chip); border: 0; }
+:root[data-stil="weich"] .wahl.zeile, :root[data-stil="weich"] .c-anteil, :root[data-stil="weich"] .hinweis-box, :root[data-stil="weich"] .install-hinweis, :root[data-stil="weich"] .krise-block { border-radius: var(--r-feld); }
+:root[data-stil="weich"] .segment button { border-radius: var(--r-chip); }
+:root[data-stil="weich"] .unten { border-top: 0; border-radius: 28px 28px 0 0; box-shadow: 0 -2px 0 var(--rand-farbe); }
+:root[data-stil="weich"] .tabs { border-top: 0; padding-left: calc(var(--s3) + var(--safe-left)); padding-right: calc(var(--s3) + var(--safe-right)); gap: var(--s1); }
+:root[data-stil="weich"] .tabs button { border-radius: var(--r-chip); margin: var(--s1) 0; min-height: 46px; }
+:root[data-stil="weich"] .tabs button[aria-selected="true"] { background: var(--primaer-weich); }
+:root[data-stil="weich"] .tabs button[aria-selected="true"] svg.ic { fill: none; }
+
+/* ---------- Nacht: Serifen in den Titeln, Kartentitel in Kapitälchen-Art; Farben kommen aus Erscheinung + Profil ---------- */
+:root[data-stil="nacht"] { --r-karte: 14px; --font-titel: ui-serif, "Iowan Old Style", "Palatino", Georgia, serif; }
+:root[data-stil="nacht"] .t-large-title { font-weight: 500; letter-spacing: .005em; }
+:root[data-stil="nacht"] .t-titel, :root[data-stil="nacht"] .sitzung .frage { font-weight: 500; }
+:root[data-stil="nacht"] .karte-titel { text-transform: uppercase; letter-spacing: .06em; font-size: var(--fs-caption); font-weight: 600; color: var(--primaer-als-text); }
+
+/* ---------- Farbe: farbiger Kopf, Wochenkarte in der Hauptfarbe ---------- */
+:root[data-stil="farbe"] { --r-karte: 16px; --r-button: 12px; --r-feld: 12px; --kopf-text: #FFFFFF; --kopf-text-2: rgba(255,255,255,.82); --kopf-linie: rgba(255,255,255,.3); }
+/* Kopf immer in der dunklen Primärfarbe (auch im Dunkeln), damit weißer Text in allen Profilen lesbar bleibt */
+:root[data-stil="farbe"] .titelzeile { background: linear-gradient(160deg, var(--p-hell) 0%, color-mix(in srgb, var(--p-hell) 90%, #FFFFFF) 100%); color: var(--kopf-text); border-bottom: 0; }
+:root[data-stil="farbe"] .titelzeile .t-sub, :root[data-stil="farbe"] .titelzeile .sitzung-schritt, :root[data-stil="farbe"] .titelzeile .t-hinweis { color: var(--kopf-text-2); }
+:root[data-stil="farbe"] .titelzeile .icon-knopf, :root[data-stil="farbe"] .titelzeile .text-knopf, :root[data-stil="farbe"] .titelzeile a { color: var(--kopf-text); }
+:root[data-stil="farbe"] .titelzeile .fortschritt { background: var(--kopf-linie); }
+:root[data-stil="farbe"] .titelzeile .fortschritt > span { background: var(--kopf-text); }
+:root[data-stil="farbe"] .karte { border: 0; box-shadow: 0 2px 10px rgba(15,42,50,.06); }
+:root[data-stil="farbe"] #karte-woche { background: var(--primaer); color: var(--primaer-text); }
+:root[data-stil="farbe"] #karte-woche .karte-titel, :root[data-stil="farbe"] #karte-woche .t-sub { color: var(--primaer-text); } /* ohne Deckkraft: Weiß auf --p-dunkel liegt nur knapp über 4,5:1 */
+:root[data-stil="farbe"] .titelzeile :focus-visible { outline-color: var(--kopf-text); }
+:root[data-stil="farbe"] #karte-woche .karte-titel { border-bottom-color: var(--kopf-linie); }
+:root[data-stil="farbe"] #karte-woche .button { background: var(--karte); color: var(--primaer-als-text); }
+:root[data-stil="farbe"] .tabs button[aria-selected="true"] svg.ic { fill: var(--primaer-weich); }
+@media (hover: hover) and (pointer: fine) {
+  :root[data-stil="farbe"] .titelzeile .icon-knopf:hover, :root[data-stil="farbe"] .titelzeile .text-knopf:hover { background: rgba(255,255,255,.15); }
+}
+
+/* ---------- Papier: Schwarz auf Papier, schmale Rahmen, kaum Rundungen ---------- */
+:root[data-stil="papier"] {
+  --r-karte: 2px; --r-button: 2px; --r-feld: 2px; --r-chip: 2px;
+  --font-zahl: ui-monospace, "SF Mono", Menlo, monospace;
+  --bg: #FBFAF7; --karte: #FBFAF7; --rand-farbe: #1C1C1C; --trenner: #D9D6CF;
+  --text: #1C1C1C; --text-2: #5A5852; --text-3: #6F6D66;
+  --primaer-weich: #EFEDE7; --feld-bg: #FFFFFF; --feld-rand: #1C1C1C;
+  --toast-bg: #1C1C1C; --toast-text: #FBFAF7;
+  --signal: #B8261A; /* fester Signalton: die Krisennummer wird hier im Signalton gesetzt und muss bei jedem Profil lesbar sein */
+}
+:root[data-stil="papier"][data-erscheinung="dunkel"] {
+  --bg: #111111; --karte: #111111; --rand-farbe: #E6E4DE; --trenner: #3A3934;
+  --text: #F2F0EA; --text-2: #B5B2AA; --text-3: #9C9990; --signal: #F08A7A;
+  --primaer-weich: #242320; --feld-bg: #000000; --feld-rand: #E6E4DE;
+  --toast-bg: #F2F0EA; --toast-text: #111111;
+}
+@media (prefers-color-scheme: dark) {
+  :root[data-stil="papier"]:not([data-erscheinung="hell"]) {
+    --bg: #111111; --karte: #111111; --rand-farbe: #E6E4DE; --trenner: #3A3934;
+    --text: #F2F0EA; --text-2: #B5B2AA; --text-3: #9C9990; --signal: #F08A7A;
+    --primaer-weich: #242320; --feld-bg: #000000; --feld-rand: #E6E4DE;
+    --toast-bg: #F2F0EA; --toast-text: #111111;
+  }
+}
+:root[data-stil="papier"] .t-large-title { letter-spacing: -.02em; }
+:root[data-stil="papier"] .titelzeile { border-bottom: 2px solid var(--text); }
+:root[data-stil="papier"] .t-caption { color: var(--text); letter-spacing: .12em; font-size: 11px; }
+:root[data-stil="papier"] .karte-titel { text-transform: uppercase; letter-spacing: .08em; font-size: var(--fs-caption); color: var(--text); }
+:root[data-stil="papier"] .chip, :root[data-stil="papier"] .vorschlag { background: var(--primaer); color: var(--primaer-text); }
+:root[data-stil="papier"] .button.leise { background: none; border: 1px solid var(--text); color: var(--text); }
+:root[data-stil="papier"] .liste-zeile .punkt { border-radius: 0; }
+:root[data-stil="papier"] .skala button, :root[data-stil="papier"] .c-achse, :root[data-stil="papier"] .c-zf-wert { font-family: var(--font-zahl); }
+:root[data-stil="papier"] .skala button { background: none; border-color: var(--text); color: var(--text); }
+:root[data-stil="papier"] .skala button[aria-pressed="true"], :root[data-stil="papier"] .skala button[aria-checked="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+:root[data-stil="papier"] .segment { background: none; border: 1px solid var(--text); padding: 0; gap: 0; }
+:root[data-stil="papier"] .segment button { border-radius: 0; }
+:root[data-stil="papier"] .segment button + button { border-left: 1px solid var(--text); }
+:root[data-stil="papier"] .fortschritt { background: var(--trenner); border-radius: 0; height: 4px; }
+:root[data-stil="papier"] .fortschritt > span { background: var(--text); border-radius: 0; }
+:root[data-stil="papier"] .zitat { border-left-color: var(--trenner); }
+:root[data-stil="papier"] .c-kurve .c-gitter { stroke: var(--trenner); }
+:root[data-stil="papier"] .dialog { border: 1px solid var(--text); }
+:root[data-stil="papier"] .unten { border-top: 2px solid var(--text); }
+:root[data-stil="papier"] .tabs { border-top: 1px solid var(--trenner); }
+:root[data-stil="papier"] .tabs button[aria-selected="true"] span { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+:root[data-stil="papier"] .tabs button[aria-selected="true"] svg.ic { fill: none; }
+:root[data-stil="papier"] .krisenzeile button b { color: var(--signal); }

@@ -10,7 +10,7 @@
 /* Fragebildschirm */
 .sitzung .datum-zeile { margin-bottom: var(--s3); }
 .sitzung-kontext { display: block; margin-bottom: var(--s2); }
-.sitzung .frage { font-size: var(--fs-title2); font-weight: 600; line-height: 1.25; margin-bottom: var(--s3); }
+.sitzung .frage { font-family: var(--font-titel); font-size: var(--fs-title2); font-weight: 600; line-height: 1.25; margin-bottom: var(--s3); }
 .sitzung .frage.abstand { margin-top: var(--s5); }
 .sitzung .feld { margin-top: var(--s4); }
 .sitzung .t-sub { margin-bottom: var(--s3); }

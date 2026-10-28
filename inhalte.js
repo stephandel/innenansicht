@@ -108,6 +108,7 @@ window.INHALTE = {
     anredeText: 'Erscheint nur in der Begrüßung auf dem Startbildschirm.',
     anredePlatzhalter: 'Vorname, optional',
     darstellung: 'Darstellung',
+    stil: 'Stil',
     farbprofil: 'Farbe',
     erscheinung: 'Erscheinung',
     erscheinungen: [
@@ -158,7 +159,21 @@ window.INHALTE = {
     { id: 'petrol', text: 'Petrol' },
     { id: 'graphit', text: 'Graphit' },
     { id: 'tanne', text: 'Tanne' },
-    { id: 'pflaume', text: 'Pflaume' }
+    { id: 'pflaume', text: 'Pflaume' },
+    { id: 'terrakotta', text: 'Terrakotta' },
+    { id: 'bernstein', text: 'Bernstein' },
+    { id: 'tinte', text: 'Tinte' }
+  ],
+
+  /* Stile: Form der Oberfläche (Rundungen, Flächen, Schrift). Die Wahl eines Stils setzt Farbe und Erscheinung
+     auf die Werte des Entwurfs; beides lässt sich danach einzeln ändern. Die Gestaltung steht in stile.css. */
+  stile: [
+    { id: 'klar', text: 'Klar', hinweis: 'Weiße Karten mit Rand, Systemschrift, ruhig und übersichtlich.', profil: 'navy', erscheinung: 'auto' },
+    { id: 'glas', text: 'Glas', hinweis: 'Milchige Flächen auf weichem Farbverlauf, runde Leisten und Knöpfe.', profil: 'petrol', erscheinung: 'auto' },
+    { id: 'weich', text: 'Weich', hinweis: 'Creme, große Rundungen, Serifen in den Titeln.', profil: 'terrakotta', erscheinung: 'auto' },
+    { id: 'nacht', text: 'Nacht', hinweis: 'Dunkel mit Bernstein, Serifen in den Titeln.', profil: 'bernstein', erscheinung: 'dunkel' },
+    { id: 'farbe', text: 'Farbe', hinweis: 'Farbiger Kopf, die Wochenkarte in der Hauptfarbe.', profil: 'petrol', erscheinung: 'auto' },
+    { id: 'papier', text: 'Papier', hinweis: 'Schwarz auf Papier, schmale Rahmen, kaum Rundungen.', profil: 'tinte', erscheinung: 'auto' }
   ],
 
   /* Hinweis zum Home-Bildschirm: nur in Safari auf iPhone/iPad, solange nicht installiert */

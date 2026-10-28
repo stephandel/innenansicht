@@ -14,8 +14,9 @@
   --spalte: 480px;
   --unten-hoehe: 108px; /* wird per JS nachgemessen (Krisenzeile + Tab-Leiste) */
 
-  /* Farbprofil Navy (Standard). Je Profil: Primär hell, Primär dunkel (eine Stufe heller), Primär als Text im Dunkeln, Signal, Chip-Text */
-  --p-hell: #1F3A5F; --p-dunkel: #2F5280; --p-licht: #9DBCE4; --signal: #E07A1F; --chip-text-hell: #B4500F;
+  /* Farbprofil Navy (Standard). Je Profil: Primär hell, Primär dunkel (eine Stufe heller), Text auf Primär im Dunkeln, Primär als Text im Dunkeln, Signal, Chip-Text */
+  --p-hell: #1F3A5F; --p-dunkel: #2F5280; --p-dunkel-text: #FFFFFF; --p-licht: #9DBCE4; --signal: #E07A1F; --chip-text-hell: #B4500F;
+  --font-titel: var(--font); /* Stile (stile.css) können Serifen für Titel setzen */
 
   /* Helle Erscheinung */
   color-scheme: light;
@@ -34,13 +35,17 @@
 :root[data-profil="graphit"] { --p-hell: #2F3A48; --p-dunkel: #4A586B; --p-licht: #A9B8CC; --signal: #D08C2E; --chip-text-hell: #8E5A14; }
 :root[data-profil="tanne"]   { --p-hell: #2F5D50; --p-dunkel: #3F7A6A; --p-licht: #8FC9B8; --signal: #C8742C; --chip-text-hell: #8C4D13; }
 :root[data-profil="pflaume"] { --p-hell: #4A3A66; --p-dunkel: #665386; --p-licht: #BBA8DC; --signal: #D0803A; --chip-text-hell: #8F5417; }
+/* Drei Profile aus den Stilentwürfen vom 27.10.: im Dunkeln helle Primärfläche mit dunklem Text */
+:root[data-profil="terrakotta"] { --p-hell: #9A4522; --p-dunkel: #B5542B; --p-licht: #F0A27E; --signal: #B5542B; --chip-text-hell: #8C3E1D; }
+:root[data-profil="bernstein"]  { --p-hell: #8A5A14; --p-dunkel: #E0A458; --p-dunkel-text: #1A1206; --p-licht: #F0B27A; --signal: #D08C2E; --chip-text-hell: #8A5A14; }
+:root[data-profil="tinte"]      { --p-hell: #1C1C1C; --p-dunkel: #E8ECF2; --p-dunkel-text: #0F141B; --p-licht: #E8ECF2; --signal: #C62F1E; --chip-text-hell: #8A2A1E; }
 
 /* Dunkle Erscheinung: einmal fest gewählt, einmal automatisch nach System */
 :root[data-erscheinung="dunkel"] {
   color-scheme: dark;
   --bg: #0F141B; --karte: #1A212B; --rand-farbe: #2A3442; --trenner: #243040;
   --text: #E8ECF2; --text-2: #9AA6B8; --text-3: #8A96A8;
-  --primaer: var(--p-dunkel); --primaer-als-text: var(--p-licht); --primaer-weich: #243040; --fokus: var(--p-licht);
+  --primaer: var(--p-dunkel); --primaer-text: var(--p-dunkel-text); --primaer-als-text: var(--p-licht); --primaer-weich: #243040; --fokus: var(--p-licht);
   --chip-bg: #3A2A16; --chip-text: #F0B27A;
   --feld-rand: #3A4656; --feld-bg: #141B24;
   --rot: #FF8A80; --rot-weich: #3A1E1C;
@@ -53,7 +58,7 @@
     color-scheme: dark;
     --bg: #0F141B; --karte: #1A212B; --rand-farbe: #2A3442; --trenner: #243040;
     --text: #E8ECF2; --text-2: #9AA6B8; --text-3: #8A96A8;
-    --primaer: var(--p-dunkel); --primaer-als-text: var(--p-licht); --primaer-weich: #243040; --fokus: var(--p-licht);
+    --primaer: var(--p-dunkel); --primaer-text: var(--p-dunkel-text); --primaer-als-text: var(--p-licht); --primaer-weich: #243040; --fokus: var(--p-licht);
     --chip-bg: #3A2A16; --chip-text: #F0B27A;
     --feld-rand: #3A4656; --feld-bg: #141B24;
     --rot: #FF8A80; --rot-weich: #3A1E1C;
@@ -89,8 +94,8 @@ a { color: var(--primaer-als-text); }
 }
 
 /* Textstufen */
-.t-large-title { font-size: var(--fs-large-title); font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
-.t-titel { font-size: var(--fs-title2); font-weight: 600; line-height: 1.25; }
+.t-large-title { font-family: var(--font-titel); font-size: var(--fs-large-title); font-weight: 700; line-height: 1.15; letter-spacing: -.01em; }
+.t-titel { font-family: var(--font-titel); font-size: var(--fs-title2); font-weight: 600; line-height: 1.25; }
 .t-title3 { font-size: var(--fs-title3); font-weight: 600; }
 .t-sub { font-size: var(--fs-subhead); color: var(--text-2); }
 .t-hinweis { font-size: var(--fs-footnote); color: var(--text-2); }
@@ -174,12 +179,15 @@ textarea::placeholder, input::placeholder { color: var(--text-3); }
   background: var(--karte); color: var(--text); display: inline-flex; align-items: center; gap: var(--s2); font-size: var(--fs-subhead); font-weight: 500;
 }
 .wahl[aria-checked="true"] { border-color: var(--primaer); background: var(--primaer-weich); font-weight: 600; }
-.wahl .farbpunkt { width: 20px; height: 20px; border-radius: 50%; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.12); }
+.wahl .farbpunkt { width: 20px; height: 20px; border-radius: 50%; flex: 0 0 auto; box-shadow: inset 0 0 0 1px rgba(128,128,128,.45); } /* neutraler Rand, damit Tinte auch im Dunkeln sichtbar ist */
 .farbpunkt[data-profil="navy"] { background: #1F3A5F; }
 .farbpunkt[data-profil="petrol"] { background: #0E5A66; }
 .farbpunkt[data-profil="graphit"] { background: #2F3A48; }
 .farbpunkt[data-profil="tanne"] { background: #2F5D50; }
 .farbpunkt[data-profil="pflaume"] { background: #4A3A66; }
+.farbpunkt[data-profil="terrakotta"] { background: #9A4522; }
+.farbpunkt[data-profil="bernstein"] { background: #8A5A14; }
+.farbpunkt[data-profil="tinte"] { background: #1C1C1C; }
 .segment { display: flex; background: var(--primaer-weich); border-radius: var(--r-button); padding: 3px; gap: 3px; }
 .segment button { flex: 1; min-height: var(--tap); border-radius: 8px; text-align: center; font-weight: 500; font-size: var(--fs-subhead); color: var(--text); padding: 0 var(--s1); }
 .segment button[aria-checked="true"] { background: var(--primaer); color: var(--primaer-text); font-weight: 600; }

@@ -74,9 +74,11 @@
     return name ? g + ', ' + name : g;
   }
 
-  /* ---------- Darstellung: Farbprofil und Erscheinung ---------- */
+  /* ---------- Darstellung: Stil, Farbprofil und Erscheinung ---------- */
+  function stilGueltig(id) { return I.stile.some(function (s) { return s.id === id; }); }
   function darstellungAnwenden() {
     var root = document.documentElement, e = Z.einstellungen;
+    root.dataset.stil = stilGueltig(e.stil) ? e.stil : 'klar';
     root.dataset.profil = e.profil || 'navy';
     root.dataset.erscheinung = e.erscheinung || 'auto';
     var meta = $('meta[name="theme-color"]');
@@ -222,8 +224,14 @@
       '<label class="vh" for="anrede">' + esc(E.anrede) + '</label><input type="text" id="anrede" data-feld="name" placeholder="' + esc(E.anredePlatzhalter) + '" value="' + esc(e.name || '') + '" autocomplete="given-name" autocapitalize="words">' +
       '<p class="t-hinweis" style="margin-top:8px">' + esc(E.anredeText) + '</p></div></section>';
 
+    var stilId = stilGueltig(e.stil) ? e.stil : 'klar';
+    var stilInfo = I.stile.filter(function (s) { return s.id === stilId; })[0];
     html += '<section class="abschnitt"><span class="t-caption">' + esc(E.darstellung) + '</span><div class="karte">' +
-      '<p class="feld-label" id="lbl-profil">' + esc(E.farbprofil) + '</p><div class="wahl-gruppe" role="radiogroup" aria-labelledby="lbl-profil">' + I.profile.map(function (p) {
+      '<p class="feld-label" id="lbl-stil">' + esc(E.stil) + '</p><div class="wahl-gruppe" role="radiogroup" aria-labelledby="lbl-stil">' + I.stile.map(function (s) {
+        return '<button class="wahl" role="radio" aria-checked="' + (stilId === s.id) + '" data-aktion="stil" data-id="' + esc(s.id) + '">' + esc(s.text) + '</button>';
+      }).join('') + '</div>' +
+      '<p class="t-hinweis" id="stil-hinweis" style="margin-top:8px">' + esc(stilInfo.hinweis) + '</p>' +
+      '<p class="feld-label" id="lbl-profil" style="margin-top:16px">' + esc(E.farbprofil) + '</p><div class="wahl-gruppe" role="radiogroup" aria-labelledby="lbl-profil">' + I.profile.map(function (p) {
         return '<button class="wahl" role="radio" aria-checked="' + (e.profil === p.id) + '" data-aktion="profil" data-id="' + esc(p.id) + '"><span class="farbpunkt" data-profil="' + esc(p.id) + '" aria-hidden="true"></span>' + esc(p.text) + '</button>';
       }).join('') + '</div>' +
       '<p class="feld-label" id="lbl-erscheinung" style="margin-top:16px">' + esc(E.erscheinung) + '</p><div class="segment" role="radiogroup" aria-labelledby="lbl-erscheinung">' + E.erscheinungen.map(function (o) {
@@ -245,6 +253,13 @@
 
     html += '<p class="t-hinweis ende-fuss">' + esc(I.fassung) + '</p>';
     inhalt.innerHTML = html;
+  }
+  /* Auswahl in der Darstellung: neu zeichnen, aber Scrollstelle und Fokus auf dem gedrückten Knopf behalten (render() springt sonst zum Titel) */
+  function darstellungWaehlen(el, aendern) {
+    var y = window.scrollY, sel = '[data-aktion="' + el.dataset.aktion + '"][data-id="' + el.dataset.id + '"]';
+    aendern(); speichern(); render();
+    window.scrollTo(0, y);
+    var neu = $(sel); if (neu) { try { neu.focus({ preventScroll: true }); } catch (e) { neu.focus(); } }
   }
   function einstellungenOeffnen(anker) {
     if (ansicht !== 'einstellungen') zurueckZu = { ansicht: ansicht, tab: tab };
@@ -342,8 +357,12 @@
     'krise': function () { einstellungenOeffnen('krisenhinweis'); },
     'sitzung-start': function () { if (A.sitzung && A.sitzung.start) A.sitzung.start(); else toast(I.platzhalter.sitzung); },
     'zusammenfassung': function () { toast(I.platzhalter.zusammenfassung); }, /* Teil C ersetzt diese Aktion */
-    'profil': function (el) { Z.einstellungen.profil = el.dataset.id; speichern(); render(); },
-    'erscheinung': function (el) { Z.einstellungen.erscheinung = el.dataset.id; speichern(); render(); },
+    'stil': function (el) {
+      var s = I.stile.filter(function (x) { return x.id === el.dataset.id; })[0]; if (!s) return;
+      darstellungWaehlen(el, function () { Z.einstellungen.stil = s.id; Z.einstellungen.profil = s.profil; Z.einstellungen.erscheinung = s.erscheinung; });
+    },
+    'profil': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.profil = el.dataset.id; }); },
+    'erscheinung': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.erscheinung = el.dataset.id; }); },
     'sichern': function () { sichern(); },
     'roh-sichern': function () { dateiAbgeben(ladeFehler.roh, dateiname(), function () { toast(E.gesichert); }); },
     'neu-beginnen': function () {

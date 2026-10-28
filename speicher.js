@@ -21,7 +21,7 @@ window.SPEICHER = (function () {
       version: VERSION,
       erstellt: t, geaendert: t,
       einstieg: { gesehen: false },
-      einstellungen: { name: '', profil: 'navy', erscheinung: 'auto' },
+      einstellungen: { name: '', stil: 'klar', profil: 'navy', erscheinung: 'auto' },
       sicherung: { zuletzt: null },
       klarheit: { wichtig: [], nichtJetzt: [], liga: null },
       anteile: [], personen: [], ressourcen: [], muster: [],

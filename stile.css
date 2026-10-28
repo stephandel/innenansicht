@@ -98,6 +98,7 @@
 :root[data-stil="farbe"] .titelzeile .t-sub, :root[data-stil="farbe"] .titelzeile .sitzung-schritt, :root[data-stil="farbe"] .titelzeile .t-hinweis { color: var(--kopf-text-2); }
 :root[data-stil="farbe"] .titelzeile .icon-knopf, :root[data-stil="farbe"] .titelzeile .text-knopf, :root[data-stil="farbe"] .titelzeile a { color: var(--kopf-text); }
 :root[data-stil="farbe"] .titelzeile .fortschritt { background: var(--kopf-linie); }
+:root[data-stil="farbe"] .logo { background: var(--kopf-text); color: var(--p-hell); }
 :root[data-stil="farbe"] .titelzeile .fortschritt > span { background: var(--kopf-text); }
 :root[data-stil="farbe"] .karte { border: 0; box-shadow: 0 2px 10px rgba(15,42,50,.06); }
 :root[data-stil="farbe"] #karte-woche { background: var(--primaer); color: var(--primaer-text); }

@@ -111,6 +111,11 @@ a { color: var(--primaer-als-text); }
 .titelzeile:empty { display: none; }
 .titelzeile .kopf-gross { flex: 1; min-width: 0; padding: var(--s2) 0 var(--s1); }
 .titelzeile .kopf-gross .t-sub { margin-top: 2px; }
+/* Logo links neben dem Titel: Kachel in Primärfarbe, Ringe in der Textfarbe darauf */
+.titelzeile .mit-logo { display: flex; align-items: center; gap: var(--s3); }
+.titelzeile .mit-logo > div { flex: 1; min-width: 0; }
+.logo { flex: 0 0 auto; width: 40px; height: 40px; border-radius: calc(var(--r-feld) * .9); background: var(--primaer); color: var(--primaer-text); display: inline-flex; }
+.logo svg { width: 100%; height: 100%; }
 .titelzeile .titel { flex: 1; min-width: 0; font-size: var(--fs-body); font-weight: 600; text-align: center; }
 .titelzeile .platz { width: var(--tap); flex: 0 0 auto; }
 .icon-knopf {

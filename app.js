@@ -8,6 +8,8 @@
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var fmt = function (s, o) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return o[k] != null ? o[k] : ''; }); };
   var IC = {
+    /* App-Symbol als Logo in der Kopfleiste: zwei Ringe, Farben folgen dem Profil */
+    logo: '<span class="logo" aria-hidden="true"><svg viewBox="0 0 180 180"><circle cx="74" cy="90" r="40" fill="none" stroke="currentColor" stroke-width="9"/><circle cx="106" cy="90" r="40" fill="none" stroke="currentColor" stroke-width="9" opacity=".55"/></svg></span>',
     zahnrad: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>',
     zu: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
     menue: '<svg class="ic klein" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
@@ -163,7 +165,7 @@
   function karte(titel, innen, id) { return '<section class="karte"' + (id ? ' id="' + id + '"' : '') + '><h2 class="karte-titel">' + esc(titel) + '</h2>' + innen + '</section>'; }
   function renderStart() {
     var T = I.start, d = heute();
-    kopf.innerHTML = '<div class="kopf-gross"><h1 class="t-large-title" data-fokus>' + esc(I.titel) + '</h1><p class="t-sub">' + esc(datumLang(d)) + '</p></div>' +
+    kopf.innerHTML = '<div class="kopf-gross mit-logo">' + IC.logo + '<div><h1 class="t-large-title" data-fokus>' + esc(I.titel) + '</h1><p class="t-sub">' + esc(datumLang(d)) + '</p></div></div>' +
       '<button class="icon-knopf" data-aktion="einstellungen" aria-label="' + esc(UI.einstellungen) + '">' + IC.zahnrad + '</button>';
     var html = '<p class="begruessung t-titel">' + esc(begruessung()) + '</p>';
     var letzte = letzteSitzung();
@@ -274,7 +276,7 @@
   /* ---------- Ungültiger Speicherstand ---------- */
   function renderFehler() {
     var F = I.fehler;
-    kopf.innerHTML = '<div class="kopf-gross"><h1 class="t-large-title" data-fokus>' + esc(I.titel) + '</h1></div>';
+    kopf.innerHTML = '<div class="kopf-gross mit-logo">' + IC.logo + '<div><h1 class="t-large-title" data-fokus>' + esc(I.titel) + '</h1></div></div>';
     inhalt.innerHTML = '<section class="karte"><h2 class="t-titel">' + esc(F.titel) + '</h2><p>' + esc(F.text) + '</p><p class="t-hinweis">' + esc(ladeFehler.fehler) + '</p>' +
       '<div class="reihe stapel"><button class="button breit" data-aktion="roh-sichern">' + esc(F.sichern) + '</button>' +
       '<button class="button leise breit" data-aktion="neu-beginnen">' + esc(F.neu) + '</button></div></section>';

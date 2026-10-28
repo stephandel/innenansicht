@@ -9,7 +9,7 @@
   var fmt = function (s, o) { return String(s).replace(/\{(\w+)\}/g, function (_, k) { return o[k] != null ? o[k] : ''; }); };
   var IC = {
     /* App-Symbol als Logo in der Kopfleiste: zwei Ringe, Farben folgen dem Profil */
-    logo: '<span class="logo" aria-hidden="true"><svg viewBox="0 0 180 180"><circle cx="74" cy="90" r="40" fill="none" stroke="currentColor" stroke-width="9"/><circle cx="106" cy="90" r="40" fill="none" stroke="currentColor" stroke-width="9" opacity=".55"/></svg></span>',
+    logo: '<span class="logo" aria-hidden="true"><svg viewBox="0 0 46 28"><circle cx="14" cy="14" r="11.5" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="32" cy="14" r="11.5" fill="none" stroke="currentColor" stroke-width="2.6" opacity=".65"/></svg></span>',
     zahnrad: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>',
     zu: '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>',
     menue: '<svg class="ic klein" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>',
@@ -78,18 +78,22 @@
 
   /* ---------- Darstellung: Stil, Farbprofil und Erscheinung ---------- */
   function stilGueltig(id) { return I.stile.some(function (s) { return s.id === id; }); }
+  function profilGueltig(id) { return I.profile.some(function (p) { return p.id === id; }); }
+  function grundGueltig(id, dunkel) { return I.gruende[dunkel ? 'dunkel' : 'hell'].some(function (g) { return g.id === id; }); }
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  // Wirksame Fassung: fest gewählt oder, bei „Automatisch“, nach dem Gerät
+  function istDunkel() { var e = Z.einstellungen.erscheinung; return e === 'dunkel' || (e !== 'hell' && !!(mq && mq.matches)); }
   function darstellungAnwenden() {
-    var root = document.documentElement, e = Z.einstellungen;
+    var root = document.documentElement, e = Z.einstellungen, dunkel = istDunkel();
+    var profil = dunkel ? e.profilDunkel : e.profil, grund = dunkel ? e.grundDunkel : e.grund;
     root.dataset.stil = stilGueltig(e.stil) ? e.stil : 'klar';
-    root.dataset.profil = e.profil || 'navy';
+    root.dataset.profil = profilGueltig(profil) ? profil : 'navy';
     root.dataset.erscheinung = e.erscheinung || 'auto';
+    if (grundGueltig(grund, dunkel) && grund !== 'stil') root.dataset.grund = grund; else delete root.dataset.grund;
     var meta = $('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', getComputedStyle(root).getPropertyValue('--primaer').trim() || '#1F3A5F');
   }
-  if (window.matchMedia) {
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
-    (mq.addEventListener ? mq.addEventListener('change', darstellungAnwenden) : mq.addListener(darstellungAnwenden));
-  }
+  if (mq) (mq.addEventListener ? mq.addEventListener('change', darstellungAnwenden) : mq.addListener(darstellungAnwenden));
 
   /* ---------- Darstellung: Gerüst ---------- */
   function fokusTitel() {
@@ -165,7 +169,7 @@
   function karte(titel, innen, id) { return '<section class="karte"' + (id ? ' id="' + id + '"' : '') + '><h2 class="karte-titel">' + esc(titel) + '</h2>' + innen + '</section>'; }
   function renderStart() {
     var T = I.start, d = heute();
-    kopf.innerHTML = '<div class="kopf-gross mit-logo">' + IC.logo + '<div><h1 class="t-large-title" data-fokus>' + esc(I.titel) + '</h1><p class="t-sub">' + esc(datumLang(d)) + '</p></div></div>' +
+    kopf.innerHTML = '<div class="kopf-gross mit-logo"><h1 class="t-large-title" data-fokus>' + IC.logo + '<span>' + esc(I.titel) + '</span></h1><p class="t-sub">' + esc(datumLang(d)) + '</p></div>' +
       '<button class="icon-knopf" data-aktion="einstellungen" aria-label="' + esc(UI.einstellungen) + '">' + IC.zahnrad + '</button>';
     var html = '<p class="begruessung t-titel">' + esc(begruessung()) + '</p>';
     var letzte = letzteSitzung();
@@ -233,12 +237,11 @@
         return '<button class="wahl" role="radio" aria-checked="' + (stilId === s.id) + '" data-aktion="stil" data-id="' + esc(s.id) + '">' + esc(s.text) + '</button>';
       }).join('') + '</div>' +
       '<p class="t-hinweis" id="stil-hinweis" style="margin-top:8px">' + esc(stilInfo.hinweis) + '</p>' +
-      '<p class="feld-label" id="lbl-profil" style="margin-top:16px">' + esc(E.farbprofil) + '</p><div class="wahl-gruppe" role="radiogroup" aria-labelledby="lbl-profil">' + I.profile.map(function (p) {
-        return '<button class="wahl" role="radio" aria-checked="' + (e.profil === p.id) + '" data-aktion="profil" data-id="' + esc(p.id) + '"><span class="farbpunkt" data-profil="' + esc(p.id) + '" aria-hidden="true"></span>' + esc(p.text) + '</button>';
-      }).join('') + '</div>' +
       '<p class="feld-label" id="lbl-erscheinung" style="margin-top:16px">' + esc(E.erscheinung) + '</p><div class="segment" role="radiogroup" aria-labelledby="lbl-erscheinung">' + E.erscheinungen.map(function (o) {
         return '<button role="radio" aria-checked="' + (e.erscheinung === o.id) + '" data-aktion="erscheinung" data-id="' + esc(o.id) + '">' + esc(o.text) + '</button>';
-      }).join('') + '</div></div></section>';
+      }).join('') + '</div>' +
+      '<p class="t-hinweis" style="margin-top:8px">' + esc(E.erscheinungHinweis) + '</p>' +
+      farbwahlHtml(false) + farbwahlHtml(true) + '</div></section>';
 
     html += '<section class="abschnitt"><span class="t-caption">' + esc(E.sicherung) + '</span><div class="karte"><p class="t-sub">' + esc(E.sicherungText) + '</p>' +
       '<p class="t-hinweis" id="letzte-sicherung">' + esc(fmt(E.letzteSicherung, { wann: sicherungWann() })) + '</p>' +
@@ -255,6 +258,19 @@
 
     html += '<p class="t-hinweis ende-fuss">' + esc(I.fassung) + '</p>';
     inhalt.innerHTML = html;
+  }
+  /* Farbe und Hintergrund je Fassung (hell oder dunkel): zwei Reihen aus Tippflächen mit Farbpunkt */
+  function farbwahlHtml(dunkel) {
+    var E = I.einstellungen, e = Z.einstellungen, k = dunkel ? 'dunkel' : 'hell';
+    var profil = dunkel ? e.profilDunkel : e.profil, grund = dunkel ? e.grundDunkel : e.grund;
+    var aProfil = dunkel ? 'profil-dunkel' : 'profil', aGrund = dunkel ? 'grund-dunkel' : 'grund';
+    return '<h3 class="t-title3" id="lbl-' + k + '" style="margin-top:20px">' + esc(dunkel ? E.dunkelTitel : E.hellTitel) + '</h3>' +
+      '<p class="feld-label" id="lbl-profil-' + k + '" style="margin-top:8px">' + esc(E.farbprofil) + '</p><div class="wahl-gruppe" role="radiogroup" aria-labelledby="lbl-' + k + ' lbl-profil-' + k + '">' + I.profile.map(function (p) {
+        return '<button class="wahl" role="radio" aria-checked="' + (profil === p.id) + '" data-aktion="' + aProfil + '" data-id="' + esc(p.id) + '"><span class="farbpunkt' + (dunkel ? ' dunkel' : '') + '" data-profil="' + esc(p.id) + '" aria-hidden="true"></span>' + esc(p.text) + '</button>';
+      }).join('') + '</div>' +
+      '<p class="feld-label" id="lbl-grund-' + k + '" style="margin-top:12px">' + esc(E.hintergrund) + '</p><div class="wahl-gruppe" role="radiogroup" aria-labelledby="lbl-' + k + ' lbl-grund-' + k + '">' + I.gruende[k].map(function (g) {
+        return '<button class="wahl" role="radio" aria-checked="' + (grund === g.id) + '" data-aktion="' + aGrund + '" data-id="' + esc(g.id) + '"><span class="farbpunkt' + (dunkel ? ' dunkel' : '') + '" data-grund="' + esc(g.id) + '" aria-hidden="true"></span>' + esc(g.text) + '</button>';
+      }).join('') + '</div>';
   }
   /* Auswahl in der Darstellung: neu zeichnen, aber Scrollstelle und Fokus auf dem gedrückten Knopf behalten (render() springt sonst zum Titel) */
   function darstellungWaehlen(el, aendern) {
@@ -276,7 +292,7 @@
   /* ---------- Ungültiger Speicherstand ---------- */
   function renderFehler() {
     var F = I.fehler;
-    kopf.innerHTML = '<div class="kopf-gross mit-logo">' + IC.logo + '<div><h1 class="t-large-title" data-fokus>' + esc(I.titel) + '</h1></div></div>';
+    kopf.innerHTML = '<div class="kopf-gross mit-logo"><h1 class="t-large-title" data-fokus>' + IC.logo + '<span>' + esc(I.titel) + '</span></h1></div>';
     inhalt.innerHTML = '<section class="karte"><h2 class="t-titel">' + esc(F.titel) + '</h2><p>' + esc(F.text) + '</p><p class="t-hinweis">' + esc(ladeFehler.fehler) + '</p>' +
       '<div class="reihe stapel"><button class="button breit" data-aktion="roh-sichern">' + esc(F.sichern) + '</button>' +
       '<button class="button leise breit" data-aktion="neu-beginnen">' + esc(F.neu) + '</button></div></section>';
@@ -361,9 +377,12 @@
     'zusammenfassung': function () { toast(I.platzhalter.zusammenfassung); }, /* Teil C ersetzt diese Aktion */
     'stil': function (el) {
       var s = I.stile.filter(function (x) { return x.id === el.dataset.id; })[0]; if (!s) return;
-      darstellungWaehlen(el, function () { Z.einstellungen.stil = s.id; Z.einstellungen.profil = s.profil; Z.einstellungen.erscheinung = s.erscheinung; });
+      darstellungWaehlen(el, function () { var e = Z.einstellungen; e.stil = s.id; e.profil = s.profil; e.profilDunkel = s.profil; e.grund = 'stil'; e.grundDunkel = 'stil'; e.erscheinung = s.erscheinung; });
     },
     'profil': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.profil = el.dataset.id; }); },
+    'profil-dunkel': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.profilDunkel = el.dataset.id; }); },
+    'grund': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.grund = el.dataset.id; }); },
+    'grund-dunkel': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.grundDunkel = el.dataset.id; }); },
     'erscheinung': function (el) { darstellungWaehlen(el, function () { Z.einstellungen.erscheinung = el.dataset.id; }); },
     'sichern': function () { sichern(); },
     'roh-sichern': function () { dateiAbgeben(ladeFehler.roh, dateiname(), function () { toast(E.gesichert); }); },

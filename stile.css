@@ -7,7 +7,7 @@
   --r-karte: 22px; --r-button: 999px; --r-feld: 16px;
   --bg: #D9E5EA; --karte: rgba(255,255,255,.62); --rand-farbe: rgba(255,255,255,.8); --trenner: rgba(15,42,50,.12);
   --text: #0F2A32; --text-2: #3A535C; --text-3: #5C737B;
-  --primaer-weich: rgba(15,42,50,.08); --feld-bg: rgba(255,255,255,.72); --feld-rand: rgba(15,42,50,.22);
+  --primaer-weich: rgba(255,255,255,.55); --feld-bg: rgba(255,255,255,.72); --feld-rand: rgba(15,42,50,.22);
   --glas-kante: rgba(255,255,255,.9); --glas-schatten: rgba(15,42,50,.10);
   --glas-verlauf: radial-gradient(120% 70% at 10% 0%, #E4EEF1 0%, transparent 60%), radial-gradient(90% 60% at 100% 20%, #DCEBE2 0%, transparent 60%), radial-gradient(80% 60% at 50% 100%, #EEE8DC 0%, transparent 60%);
 }
@@ -92,13 +92,13 @@
 :root[data-stil="nacht"] .karte-titel { text-transform: uppercase; letter-spacing: .06em; font-size: var(--fs-caption); font-weight: 600; color: var(--primaer-als-text); }
 
 /* ---------- Farbe: farbiger Kopf, Wochenkarte in der Hauptfarbe ---------- */
-:root[data-stil="farbe"] { --r-karte: 16px; --r-button: 12px; --r-feld: 12px; --kopf-text: #FFFFFF; --kopf-text-2: rgba(255,255,255,.82); --kopf-linie: rgba(255,255,255,.3); }
+:root[data-stil="farbe"] { --r-karte: 16px; --r-button: 12px; --r-feld: 12px; --kopf-text: #FFFFFF; --kopf-text-2: rgba(255,255,255,.9); --kopf-linie: rgba(255,255,255,.3); }
 /* Kopf immer in der dunklen Primärfarbe (auch im Dunkeln), damit weißer Text in allen Profilen lesbar bleibt */
-:root[data-stil="farbe"] .titelzeile { background: linear-gradient(160deg, var(--p-hell) 0%, color-mix(in srgb, var(--p-hell) 90%, #FFFFFF) 100%); color: var(--kopf-text); border-bottom: 0; }
+:root[data-stil="farbe"] .titelzeile { background: linear-gradient(160deg, var(--p-hell) 0%, color-mix(in srgb, var(--p-hell) 88%, #000000) 100%); color: var(--kopf-text); border-bottom: 0; }
 :root[data-stil="farbe"] .titelzeile .t-sub, :root[data-stil="farbe"] .titelzeile .sitzung-schritt, :root[data-stil="farbe"] .titelzeile .t-hinweis { color: var(--kopf-text-2); }
 :root[data-stil="farbe"] .titelzeile .icon-knopf, :root[data-stil="farbe"] .titelzeile .text-knopf, :root[data-stil="farbe"] .titelzeile a { color: var(--kopf-text); }
 :root[data-stil="farbe"] .titelzeile .fortschritt { background: var(--kopf-linie); }
-:root[data-stil="farbe"] .logo { background: var(--kopf-text); color: var(--p-hell); }
+:root[data-stil="farbe"] .logo { color: var(--kopf-text); }
 :root[data-stil="farbe"] .titelzeile .fortschritt > span { background: var(--kopf-text); }
 :root[data-stil="farbe"] .karte { border: 0; box-shadow: 0 2px 10px rgba(15,42,50,.06); }
 :root[data-stil="farbe"] #karte-woche { background: var(--primaer); color: var(--primaer-text); }
@@ -158,3 +158,17 @@
 :root[data-stil="papier"] .tabs button[aria-selected="true"] span { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
 :root[data-stil="papier"] .tabs button[aria-selected="true"] svg.ic { fill: none; }
 :root[data-stil="papier"] .krisenzeile button b { color: var(--signal); }
+
+/* ---------- Hintergründe (data-grund an <html>), getrennt wählbar für hell und dunkel ----------
+   app.js setzt data-grund nur für die gerade wirksame Fassung, deshalb brauchen diese Regeln keine Dunkelbedingung.
+   Spezifität (0,3,0) und Stellung am Ende: sie schlagen die Grundflächen der Stile, auch die aus @media. */
+:root[data-stil][data-grund="weiss"]     { --bg: #FFFFFF; --karte: #F4F6F9; --rand-farbe: #DDE3EC; --trenner: #E6EBF2; }
+:root[data-stil][data-grund="sand"]      { --bg: #F3EDE2; --karte: #FFFDF9; --rand-farbe: #E3D9C8; --trenner: #EFE7DA; --primaer-weich: #F1EADC; }
+:root[data-stil][data-grund="nebel"]     { --bg: #E6ECF2; --karte: #FFFFFF; --rand-farbe: #CFD9E4; --trenner: #E0E7EF; }
+:root[data-stil][data-grund="schwarz"]   { --bg: #000000; --karte: #15181D; --rand-farbe: #2A3038; --trenner: #22272E; }
+:root[data-stil][data-grund="nachtblau"] { --bg: #0B1526; --karte: #16233A; --rand-farbe: #28395A; --trenner: #1F2D47; }
+:root[data-stil][data-grund="anthrazit"] { --bg: #1C1C1E; --karte: #2A2A2D; --rand-farbe: #3C3C41; --trenner: #343438; }
+/* Glas behält seine milchigen Karten, Papier hat keine Karten (Karte = Grund, Rand = Text) */
+:root[data-stil="glas"][data-grund="weiss"], :root[data-stil="glas"][data-grund="sand"], :root[data-stil="glas"][data-grund="nebel"] { --karte: rgba(255,255,255,.62); --rand-farbe: rgba(255,255,255,.8); --trenner: rgba(15,42,50,.12); }
+:root[data-stil="glas"][data-grund="schwarz"], :root[data-stil="glas"][data-grund="nachtblau"], :root[data-stil="glas"][data-grund="anthrazit"] { --karte: rgba(36,46,60,.6); --rand-farbe: rgba(255,255,255,.1); --trenner: rgba(255,255,255,.1); }
+:root[data-stil="papier"][data-grund] { --karte: var(--bg); --rand-farbe: var(--text); }

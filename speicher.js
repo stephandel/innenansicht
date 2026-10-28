@@ -21,7 +21,7 @@ window.SPEICHER = (function () {
       version: VERSION,
       erstellt: t, geaendert: t,
       einstieg: { gesehen: false },
-      einstellungen: { name: '', stil: 'klar', profil: 'navy', erscheinung: 'auto' },
+      einstellungen: { name: '', stil: 'klar', profil: 'navy', profilDunkel: 'navy', grund: 'stil', grundDunkel: 'stil', erscheinung: 'auto' },
       sicherung: { zuletzt: null },
       klarheit: { wichtig: [], nichtJetzt: [], liga: null },
       anteile: [], personen: [], ressourcen: [], muster: [],
@@ -61,6 +61,8 @@ window.SPEICHER = (function () {
   function ergaenzen(o) {
     var z = Object.assign(leer(), o);
     z.einstellungen = Object.assign(leer().einstellungen, o.einstellungen || {});
+    // Stände vor dem 28.10.2026 kennen nur eine Farbe: sie gilt dann für hell und dunkel
+    if (o.einstellungen && o.einstellungen.profil && !o.einstellungen.profilDunkel) z.einstellungen.profilDunkel = o.einstellungen.profil;
     return z;
   }
 

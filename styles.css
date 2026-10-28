@@ -39,6 +39,8 @@
 :root[data-profil="terrakotta"] { --p-hell: #9A4522; --p-dunkel: #B5542B; --p-licht: #F0A27E; --signal: #B5542B; --chip-text-hell: #8C3E1D; }
 :root[data-profil="bernstein"]  { --p-hell: #8A5A14; --p-dunkel: #E0A458; --p-dunkel-text: #1A1206; --p-licht: #F0B27A; --signal: #D08C2E; --chip-text-hell: #8A5A14; }
 :root[data-profil="tinte"]      { --p-hell: #1C1C1C; --p-dunkel: #E8ECF2; --p-dunkel-text: #0F141B; --p-licht: #E8ECF2; --signal: #C62F1E; --chip-text-hell: #8A2A1E; }
+/* Türkis (28.10.): hell so dunkel, dass es als Text auf dem Grau noch 4,5:1 hält; im Dunkeln leuchtend mit dunklem Text */
+:root[data-profil="tuerkis"]    { --p-hell: #096367; --p-dunkel: #3EC1CD; --p-dunkel-text: #06262B; --p-licht: #8FDDE6; --signal: #C9792B; --chip-text-hell: #8F5114; }
 
 /* Dunkle Erscheinung: einmal fest gewählt, einmal automatisch nach System */
 :root[data-erscheinung="dunkel"] {
@@ -111,11 +113,12 @@ a { color: var(--primaer-als-text); }
 .titelzeile:empty { display: none; }
 .titelzeile .kopf-gross { flex: 1; min-width: 0; padding: var(--s2) 0 var(--s1); }
 .titelzeile .kopf-gross .t-sub { margin-top: 2px; }
-/* Logo links neben dem Titel: Kachel in Primärfarbe, Ringe in der Textfarbe darauf */
-.titelzeile .mit-logo { display: flex; align-items: center; gap: var(--s3); }
-.titelzeile .mit-logo > div { flex: 1; min-width: 0; }
-.logo { flex: 0 0 auto; width: 40px; height: 40px; border-radius: calc(var(--r-feld) * .9); background: var(--primaer); color: var(--primaer-text); display: inline-flex; }
-.logo svg { width: 100%; height: 100%; }
+/* Logo: nur die zwei Ringe des App-Symbols, in der Primärfarbe, auf der Titelzeile zentriert; das Datum rückt unter den Titeltext */
+.titelzeile .mit-logo .t-large-title { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); overflow-wrap: normal; } /* bei großer Schrift rutscht der Titel unter das Logo statt im Wort zu brechen */
+.logo { flex: 0 0 auto; width: 46px; height: 28px; color: var(--primaer-als-text); display: inline-flex; }
+.logo svg { width: 100%; height: 100%; overflow: visible; }
+.titelzeile .mit-logo .t-sub { padding-left: calc(46px + var(--s3)); }
+@media (max-width: 360px) { .logo { display: none; } .titelzeile .mit-logo .t-sub { padding-left: 0; } } /* sehr schmale Geräte: Platz reicht nicht für Logo, Titel und Zahnrad */
 .titelzeile .titel { flex: 1; min-width: 0; font-size: var(--fs-body); font-weight: 600; text-align: center; }
 .titelzeile .platz { width: var(--tap); flex: 0 0 auto; }
 .icon-knopf {
@@ -193,6 +196,26 @@ textarea::placeholder, input::placeholder { color: var(--text-3); }
 .farbpunkt[data-profil="terrakotta"] { background: #9A4522; }
 .farbpunkt[data-profil="bernstein"] { background: #8A5A14; }
 .farbpunkt[data-profil="tinte"] { background: #1C1C1C; }
+.farbpunkt[data-profil="tuerkis"] { background: #096367; }
+/* Für die dunkle Fassung zeigt der Punkt die dunkle Primärfarbe des Profils */
+.farbpunkt.dunkel[data-profil="navy"] { background: #2F5280; }
+.farbpunkt.dunkel[data-profil="petrol"] { background: #1E7A8A; }
+.farbpunkt.dunkel[data-profil="graphit"] { background: #4A586B; }
+.farbpunkt.dunkel[data-profil="tanne"] { background: #3F7A6A; }
+.farbpunkt.dunkel[data-profil="pflaume"] { background: #665386; }
+.farbpunkt.dunkel[data-profil="terrakotta"] { background: #B5542B; }
+.farbpunkt.dunkel[data-profil="bernstein"] { background: #E0A458; }
+.farbpunkt.dunkel[data-profil="tinte"] { background: #E8ECF2; }
+.farbpunkt.dunkel[data-profil="tuerkis"] { background: #3EC1CD; }
+/* Hintergründe (Werte wie in stile.css) */
+.farbpunkt[data-grund="weiss"] { background: #FFFFFF; }
+.farbpunkt[data-grund="sand"] { background: #F3EDE2; }
+.farbpunkt[data-grund="nebel"] { background: #E6ECF2; }
+.farbpunkt[data-grund="schwarz"] { background: #000000; }
+.farbpunkt[data-grund="nachtblau"] { background: #0B1526; }
+.farbpunkt[data-grund="anthrazit"] { background: #1C1C1E; }
+.farbpunkt[data-grund="stil"] { background: linear-gradient(135deg, #F3F5F8 50%, #FFFFFF 50%); }
+.farbpunkt.dunkel[data-grund="stil"] { background: linear-gradient(135deg, #0F141B 50%, #1A212B 50%); }
 .segment { display: flex; background: var(--primaer-weich); border-radius: var(--r-button); padding: 3px; gap: 3px; }
 .segment button { flex: 1; min-height: var(--tap); border-radius: 8px; text-align: center; font-weight: 500; font-size: var(--fs-subhead); color: var(--text); padding: 0 var(--s1); }
 .segment button[aria-checked="true"] { background: var(--primaer); color: var(--primaer-text); font-weight: 600; }

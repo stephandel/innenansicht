@@ -110,12 +110,16 @@ window.INHALTE = {
     darstellung: 'Darstellung',
     stil: 'Stil',
     farbprofil: 'Farbe',
+    hintergrund: 'Hintergrund',
     erscheinung: 'Erscheinung',
     erscheinungen: [
       { id: 'auto', text: 'Automatisch' },
       { id: 'hell', text: 'Hell' },
       { id: 'dunkel', text: 'Dunkel' }
     ],
+    erscheinungHinweis: 'Bei „Automatisch“ folgt die App dem Gerät und wechselt zwischen der hellen und der dunklen Fassung.',
+    hellTitel: 'Helle Fassung',
+    dunkelTitel: 'Dunkle Fassung',
     sicherung: 'Sicherung',
     sicherungText: 'Eine Sicherungsdatei enthält alle Einträge dieser App als Textdatei. Bewahre sie an einem Ort auf, dem du vertraust, zum Beispiel in „Dateien“.',
     sichern: 'Sicherungsdatei erstellen',
@@ -162,8 +166,25 @@ window.INHALTE = {
     { id: 'pflaume', text: 'Pflaume' },
     { id: 'terrakotta', text: 'Terrakotta' },
     { id: 'bernstein', text: 'Bernstein' },
-    { id: 'tinte', text: 'Tinte' }
+    { id: 'tinte', text: 'Tinte' },
+    { id: 'tuerkis', text: 'Türkis' }
   ],
+
+  /* Hintergründe, getrennt für die helle und die dunkle Fassung. „stil“ = so, wie der Stil es vorsieht. Farbwerte in stile.css (data-grund). */
+  gruende: {
+    hell: [
+      { id: 'stil', text: 'Wie der Stil' },
+      { id: 'weiss', text: 'Weiß' },
+      { id: 'sand', text: 'Sand' },
+      { id: 'nebel', text: 'Nebel' }
+    ],
+    dunkel: [
+      { id: 'stil', text: 'Wie der Stil' },
+      { id: 'schwarz', text: 'Schwarz' },
+      { id: 'nachtblau', text: 'Nachtblau' },
+      { id: 'anthrazit', text: 'Anthrazit' }
+    ]
+  },
 
   /* Stile: Form der Oberfläche (Rundungen, Flächen, Schrift). Die Wahl eines Stils setzt Farbe und Erscheinung
      auf die Werte des Entwurfs; beides lässt sich danach einzeln ändern. Die Gestaltung steht in stile.css. */
